@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BW Tiers</title>
+<style>
+body{margin:0;background:#0a0000;color:white;font-family:Arial Black, sans-serif}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at center bottom, #ff2200 0%, #7a0a00 30%, #000000 75%);z-index:-1}
+.wrap{max-width:600px;margin:auto;padding:15px}
+h1{text-align:center;text-shadow:0 0 15px red;font-size:32px;margin-top:30px}
+h1 span{color:#ffcc00}
+.div{height:2px;background:linear-gradient(90deg,transparent,red,yellow,red,transparent);margin:20px 0}
+.tabs{display:flex;gap:10px}
+.tab{flex:1;padding:13px;text-align:center;border-radius:12px;background:#1a0a0a;border:1px solid #331111;font-weight:900;cursor:pointer}
+.tab.active{background:red;box-shadow:0 0 20px red}
+.list{display:none;margin-top:15px}
+.list.active{display:block}
+.row{display:flex;gap:10px;align-items:center;background:#1a0a0a;border:1px solid #2a1a1a;padding:12px;border-radius:12px;margin-bottom:8px}
+.row.gold{border-color:gold;box-shadow:0 0 15px gold}
+.row.silver{border-color:silver;box-shadow:0 0 10px silver}
+.row.bronze{border-color:#ff6a00;box-shadow:0 0 10px #ff6a00}
+.num{width:40px;height:40px;background:#000;display:grid;place-items:center;border-radius:8px;font-weight:900;border:1px solid #333}
+.num.g{background:gold;color:black}
+.num.s{background:silver;color:black}
+.num.b{background:#ff6a00;color:white}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrap">
+<h1>BLOCKMAN GO<br><span>BED WARS</span></h1>
+<div class="div"></div>
+<div class="tabs">
+<div class="tab active" onclick="openT('m',this)">TOP MOBILE</div>
+<div class="tab" onclick="openT('e',this)">TOP EMU</div>
+</div>
+
+<div id="m" class="list active">
+<div class="row gold"><div class="num g">T1</div>Amaury</div>
+<div class="row silver"><div class="num s">T2</div>NotEgo</div>
+<div class="row bronze"><div class="num b">T3</div>Huzu</div>
+<div class="row"><div class="num">T4</div>Flaax</div>
+<div class="row"><div class="num">T5</div>Flinney</div>
+<div class="row"><div class="num">T6</div>Elzair</div>
+<div class="row"><div class="num">T7</div>Kurio</div>
+<div class="row"><div class="num">T8</div>CnBeast</div>
+<div class="row"><div class="num">T9</div>Beta</div>
+<div class="row"><div class="num">T10</div>Zactyo</div>
+<div class="row"><div class="num">T11</div>Naxo</div>
+<div class="row"><div class="num">T12</div>Ownzy</div>
+<div class="row"><div class="num">T13</div>Harsh</div>
+<div class="row"><div class="num">T14</div>Kairo</div>
+<div class="row"><div class="num">T15</div>Killer</div>
+<div class="row"><div class="num">T16</div>Rishi</div>
+<div class="row"><div class="num">T17</div>Adish</div>
+<div class="row"><div class="num">T18</div>Yuta</div>
+<div class="row"><div class="num">T19</div>Zeus</div>
+<div class="row"><div class="num">T20</div>Quar</div>
+</div>
+
+<div id="e" class="list">
+<div class="row gold"><div class="num g">T1</div>Beny</div>
+<div class="row silver"><div class="num s">T2</div>Bannks</div>
+<div class="row bronze"><div class="num b">T3</div>Fredd</div>
+<div class="row"><div class="num">T4</div>Azuky</div>
+<div class="row"><div class="num">T5</div>SanoManjiro</div>
+<div class="row"><div class="num">T6</div>Mihan</div>
+<div class="row"><div class="num">T7</div>Astro</div>
+<div class="row"><div class="num">T8</div>Aris</div>
+<div class="row"><div class="num">T9</div>Anfal</div>
+<div class="row"><div class="num">T10</div>Beta</div>
+</div>
+
+</div>
+<script>
+function openT(id,el){
+document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+el.classList.add('active');
+}
+</script>
+</body>
+</html>
