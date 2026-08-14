@@ -1,111 +1,119 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BW Galaxy Tiers</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;900&family=Orbitron:wght@900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#050510;color:#fff;font-family:'Outfit',sans-serif;overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 20%, #2a1a6a 0%, #120a2e 25%, #050510 60%, #000 100%)}
+body{background:#0a0202;color:#fff;font-family:'Outfit',sans-serif;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 20%, #6a0a0a 0%, #2e0a0a 25%, #0a0202 60%, #000 100%)}
+.bg::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,0,0.03) 2px, rgba(255,0,0,0.03) 4px);animation:scan 8s linear infinite}
+@keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
 #particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
-.particle{position:absolute;width:3px;height:3px;background:#8a2be2;border-radius:50%;box-shadow:0 0 6px #8a2be2;animation:floatP linear infinite}
-@keyframes floatP{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(100px);opacity:0}}
-.wrap{max-width:640px;margin:auto;padding:18px;filter:blur(15px);pointer-events:none;transition:.5s}.wrap.unlocked{filter:none;pointer-events:all}
-h1{text-align:center;font-size:36px;font-weight:900;margin-top:15px;animation:glowText 2s ease-in-out infinite alternate}
-@keyframes glowText{from{text-shadow:0 0 10px #7c3aed55}to{text-shadow:0 0 25px #7c3aed}}
-h1 span{background:linear-gradient(90deg,#a78bfa,#60a5fa,#f0abfc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.line{height:2px;background:linear-gradient(90deg,transparent,#8a2be2,#60a5fa,#f0abfc,transparent);margin:15px 0;background-size:200% 100%;animation:lineMove 2s linear infinite}
+.particle{position:absolute;width:3px;height:3px;background:#ff0000;border-radius:50%;box-shadow:0 0 8px #ff0000,0 0 15px #ff0000;animation:floatP linear infinite}
+@keyframes floatP{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(120px);opacity:0}}
+
+.wrap{max-width:680px;margin:auto;padding:16px;filter:blur(15px);pointer-events:none;transition:.5s}.wrap.unlocked{filter:none;pointer-events:all}
+h1{text-align:center;font-family:'Orbitron',sans-serif;font-size:34px;font-weight:900;margin-top:10px;letter-spacing:2px;color:#ff2222;animation:glowRed 1.5s ease-in-out infinite alternate, glitch 3s infinite}
+@keyframes glowRed{from{text-shadow:0 0 10px #ff0000,0 0 20px #ff0000}to{text-shadow:0 0 20px #ff0000,0 0 40px #ff0000,0 0 60px #ff000088}}
+@keyframes glitch{0%,90%,100%{transform:none}92%{transform:translate(1px,-1px)}94%{transform:translate(-1px,1px)}96%{transform:translate(1px,1px)}}
+h1 span{background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 100%;animation:lineMove 2s linear infinite}
+.line{height:3px;background:linear-gradient(90deg,transparent,#ff0000,#ff6600,#ff0000,transparent);margin:14px 0;background-size:200% 100%;animation:lineMove 2s linear infinite;box-shadow:0 0 10px #ff0000}
 @keyframes lineMove{0%{background-position:0%}100%{background-position:200%}}
-.tabs{display:flex;gap:8px}.tab{flex:1;padding:12px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);text-align:center;font-weight:900;cursor:pointer;font-size:12px;transition:.3s}
-.tab.active{background:linear-gradient(135deg,#7c3aed,#4f46e5);box-shadow:0 0 20px #7c3aed;transform:scale(1.05)}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab{flex:1;min-width:65px;padding:11px 4px;border-radius:12px;background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.25);text-align:center;font-weight:900;cursor:pointer;font-size:11px;transition:.3s;position:relative;overflow:hidden}
+.tab::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,0,0,0.3),transparent);transition:.5s}
+.tab:hover::before{left:100%}
+.tab.active{background:linear-gradient(135deg,#ff0000,#8b0000);box-shadow:0 0 20px #ff0000,0 0 40px #ff000088;transform:scale(1.05);border-color:#ff0000}
+
 .list{display:none;margin-top:16px}.list.active{display:block}
-.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:11px 13px;display:flex;align-items:center;gap:10px;margin-bottom:9px;transition:.3s}
-.card.t1{border:2px solid #facc15;box-shadow:0 0 18px #facc15aa;animation:pulseGold 2s infinite}
-@keyframes pulseGold{0%,100%{box-shadow:0 0 18px #facc15aa}50%{box-shadow:0 0 30px #facc15}}
-.num{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:12px;background:#0a0a18;border:1px solid #222}
-.num.gold{background:linear-gradient(135deg,#fff176,#facc15,#ff8f00);color:#000}.name{font-weight:800;flex:1}
-.like{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);padding:6px 10px;border-radius:20px;cursor:pointer}.like.liked{background:linear-gradient(135deg,#8b5cf6,#ec4899);pointer-events:none}
+.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,0,0,0.15);border-radius:14px;padding:11px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px;transition:.3s;position:relative;overflow:hidden;animation:slideIn.5s backwards}
+.card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);transition:.6s}
+.card:hover::before{left:100%}
+.card:hover{transform:translateX(6px) scale(1.02);border-color:#ff000088;box-shadow:0 5px 25px #ff000033}
+@keyframes slideIn{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+
+/* MOBILE EFECTO FUEGO */
+#mobile.card{border-color:rgba(255,100,0,0.25);box-shadow:inset 0 0 10px rgba(255,60,0,0.05)}
+#mobile.card.t1{border:2px solid #ffaa00;background:linear-gradient(135deg,rgba(255,170,0,0.15),rgba(255,0,0,0.1));box-shadow:0 0 20px #ffaa00aa,0 0 40px #ff660055;animation:slideIn.5s backwards, pulseFire 1.8s infinite}
+@keyframes pulseFire{0%,100%{box-shadow:0 0 20px #ffaa00aa,0 0 40px #ff660055}50%{box-shadow:0 0 35px #ffaa00,0 0 60px #ff6600,0 0 80px #ff000055}}
+
+/* EMU EFECTO CYBER */
+#emu.card{border-color:rgba(255,0,60,0.3);background:rgba(255,0,40,0.06)}
+#emu.card.t1{border:2px solid #ff0040;box-shadow:0 0 20px #ff0040aa,0 0 40px #ff004055;animation:slideIn.5s backwards, pulseCyber 2s infinite}
+@keyframes pulseCyber{0%,100%{box-shadow:0 0 20px #ff0040aa}50%{box-shadow:0 0 35px #ff0040,0 0 60px #ff004088}}
+
+/* HACKER EFECTO ROJO SANGRE */
+#hackers.card{background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.4);animation:slideIn.5s backwards, hackerShake 4s infinite}
+@keyframes hackerShake{0%,96%,100%{transform:none}97%{transform:translateX(1px)}98%{transform:translateX(-1px)}99%{transform:translateX(1px)}}
+#hackers.card.t1{border:2px solid #ff0000;background:linear-gradient(135deg,rgba(255,0,0,0.25),rgba(139,0,0,0.2));box-shadow:0 0 25px #ff0000aa,0 0 50px #ff000055;animation:slideIn.5s backwards, pulseHacker 1.2s infinite}
+#hackers.card.t2{border:2px solid #ff3333;box-shadow:0 0 20px #ff333388}
+#hackers.card.t3{border:2px solid #ff6666;box-shadow:0 0 15px #ff666688}
+@keyframes pulseHacker{0%,100%{box-shadow:0 0 25px #ff0000aa}50%{box-shadow:0 0 40px #ff0000,0 0 70px #ff000088}}
+
+.num{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:11px;background:#150505;border:1px solid #330000;position:relative;z-index:1}
+.num.gold{background:linear-gradient(135deg,#fff176,#ffaa00,#ff4400);color:#000;box-shadow:0 0 15px #ffaa00}
+.num.hacker-gold{background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;box-shadow:0 0 15px #ff0000;animation:spinH 2s linear infinite}
+@keyframes spinH{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
+.name{font-weight:800;flex:1;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:900;margin-left:6px;animation:badgePulse 1.5s infinite}
+.badge-gay{background:linear-gradient(90deg,#ff00ff,#00ffff,#ffff00,#ff00ff);background-size:200% 100%;color:#000;box-shadow:0 0 10px #ff00ffaa;animation:badgePulse 1.5s infinite, lineMove 2s linear infinite}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.like{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,0,0,0.2);padding:6px 10px;border-radius:20px;cursor:pointer;transition:.2s;z-index:1}
+.like:hover{transform:scale(1.15);box-shadow:0 0 15px #ff000088}.like.liked{background:linear-gradient(135deg,#ff0000,#8b0000);pointer-events:none}
+
 #popup{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.9);backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px}
-.popup-box{background:#15152f;border:2px solid #7c3aed;border-radius:20px;padding:22px;width:100%;max-width:380px;box-shadow:0 0 40px #7c3aed88}
-.popup-box h2{text-align:center;font-size:22px}.popup-box p{text-align:center;opacity:.6;font-size:12px;margin:6px 0 14px}
-.popup-box input,.popup-box select{width:100%;padding:13px;border-radius:12px;background:#0a0a18;border:1px solid #333;color:#fff;margin-bottom:10px;font-family:'Outfit';font-size:13px;outline:none}
-.popup-box button{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:900;cursor:pointer}
-.reg-card{background:rgba(255,255,255,0.06);border:1px solid rgba(124,58,237,0.4);border-radius:12px;padding:11px;margin-bottom:8px;display:flex;justify-content:space-between}
-.discord-footer{margin-top:25px;text-align:center;padding:20px;border-top:1px solid rgba(255,255,255,0.1)}
-.discord-btn{display:inline-flex;align-items:center;gap:10px;background:#5865F2;color:#fff;padding:14px 28px;border-radius:12px;font-weight:900;text-decoration:none;font-size:15px;box-shadow:0 0 20px #5865F288;animation:discordPulse 2s infinite}
-@keyframes discordPulse{0%,100%{box-shadow:0 0 20px #5865F288}50%{box-shadow:0 0 30px #5865F2}}
+.popup-box{background:#1a0505;border:2px solid #ff0000;border-radius:20px;padding:22px;width:100%;max-width:380px;box-shadow:0 0 40px #ff000088,0 0 80px #ff000033;animation:popIn.6s cubic-bezier(.68,-0.55,.27,1.55)}
+@keyframes popIn{0%{transform:scale(0) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.popup-box h2{text-align:center;font-size:22px;color:#ff2222;text-shadow:0 0 15px #ff0000}.popup-box p{text-align:center;opacity:.6;font-size:12px;margin:6px 0 14px}
+.popup-box input,.popup-box select{width:100%;padding:13px;border-radius:12px;background:#0a0202;border:1px solid #440000;color:#fff;margin-bottom:10px;font-family:'Outfit';font-size:13px;outline:none;transition:.3s}
+.popup-box input:focus{border-color:#ff0000;box-shadow:0 0 15px #ff000055;transform:scale(1.02)}
+.popup-box button{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 0 20px #ff000088;animation:discordPulse 2s infinite}
+.reg-card{background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.3);border-radius:12px;padding:11px;margin-bottom:8px;display:flex;justify-content:space-between}
+.discord-footer{margin-top:25px;text-align:center;padding:20px;border-top:1px solid rgba(255,0,0,0.2)}
+.discord-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;padding:14px 28px;border-radius:12px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 0 20px #ff000088;animation:discordPulse 2s infinite;transition:.3s}
+.discord-btn:hover{transform:scale(1.08);box-shadow:0 0 35px #ff0000}
+@keyframes discordPulse{0%,100%{box-shadow:0 0 20px #ff000088}50%{box-shadow:0 0 35px #ff0000,0 0 55px #ff000044}}
 .discord-footer small{display:block;margin-top:10px;opacity:.5;font-size:11px}
 </style></head><body><div class="bg"></div><div id="particles"></div>
+
 <div id="popup"><div class="popup-box"><h2 id="t_reg_title">🎮 REGISTRO</h2><p id="t_reg_sub">Obligatorio para ver el Top</p>
-<input id="pName" placeholder="Nombre en el juego *">
-<input id="pID" type="number" placeholder="ID del juego *">
-<select id="pPlat"><option value="" id="t_opt_plat">Plataforma *</option><option value="Mobile">📱 Mobile</option><option value="Emu">💻 Emu</option></select>
-<input id="pTeam" placeholder="Team / Clan *">
-<button onclick="doRegister()" id="t_btn_enter">ENTRAR AL TOP 🔥</button>
-</div></div>
+<input id="pName" placeholder="Nombre *"><input id="pID" type="number" placeholder="ID *">
+<select id="pPlat"><option value="" id="t_opt_plat">Plataforma *</option><option value="Mobile">📱 Mobile</option><option value="Emu">💻 Emu</option><option value="Hacker">☠️ Hacker</option></select>
+<input id="pTeam" placeholder="Team *"><button onclick="doRegister()" id="t_btn_enter">ENTRAR AL TOP 🔥</button></div></div>
+
 <div class="wrap" id="mainWrap"><h1>BLOCKMAN GO<br><span>BED WARS</span></h1><div class="line"></div>
-<div class="tabs"><div class="tab active" onclick="showTab('mobile',this)" id="t_tab_mobile">🔥 MOBILE</div><div class="tab" onclick="showTab('emu',this)" id="t_tab_emu">😈 EMU</div><div class="tab" onclick="showTab('regs',this)">📋 (<span id="countRegs">0</span>)</div></div>
-<div id="mobile" class="list active"></div><div id="emu" class="list"></div><div id="regs" class="list"><div id="regsList"></div></div>
+<div class="tabs"><div class="tab active" onclick="showTab('mobile',this)" id="t_tab_mobile">🔥 MOBILE</div><div class="tab" onclick="showTab('emu',this)" id="t_tab_emu">😈 EMU</div><div class="tab" onclick="showTab('hackers',this)" id="t_tab_hacker">☠️ HACKERS</div><div class="tab" onclick="showTab('regs',this)">📋 (<span id="countRegs">0</span>)</div></div>
+<div id="mobile" class="list active"></div><div id="emu" class="list"></div><div id="hackers" class="list"></div><div id="regs" class="list"><div id="regsList"></div></div>
+
 <div class="discord-footer">
 <a href="https://discord.gg/dXU7y79JF" target="_blank" class="discord-btn" id="t_discord_btn">💬 ÚNETE A NUESTRO DISCORD</a>
 <small id="t_discord_small">discord.gg/dXU7y79JF - Soporte, torneos y reclutamientos</small>
 </div></div>
+
 <script>
-// DETECCION DE IDIOMA AUTOMATICA
-const userLang = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
-const isEnglish = userLang.startsWith('en');
-const L = isEnglish? {
-reg_title:"🎮 REGISTER",
-reg_sub:"Required to see the Top",
-ph_name:"In-game name *",
-ph_id:"Game ID *",
-ph_team:"Team / Clan *",
-opt_plat:"Platform *",
-btn_enter:"ENTER THE TOP 🔥",
-alert_fill:"❌ FILL ALL FIELDS BRO",
-tab_mobile:"🔥 MOBILE",
-tab_emu:"😈 EMU",
-discord_btn:"💬 JOIN OUR DISCORD",
-discord_small:"discord.gg/dXU7y79JF - Support, tournaments & recruitment",
-no_regs:"No players registered yet",
-btn_registering:"REGISTERING..."
-} : {
-reg_title:"🎮 REGISTRO",
-reg_sub:"Obligatorio para ver el Top",
-ph_name:"Nombre en el juego *",
-ph_id:"ID del juego *",
-ph_team:"Team / Clan *",
-opt_plat:"Plataforma *",
-btn_enter:"ENTRAR AL TOP 🔥",
-alert_fill:"❌ LLENA TODO BRO",
-tab_mobile:"🔥 MOBILE",
-tab_emu:"😈 EMU",
-discord_btn:"💬 ÚNETE A NUESTRO DISCORD",
-discord_small:"discord.gg/dXU7y79JF - Soporte, torneos y reclutamientos",
-no_regs:"Aún no hay registrados",
-btn_registering:"REGISTRANDO..."
-};
-// APLICAR TRADUCCION
-document.getElementById('t_reg_title').textContent=L.reg_title;
-document.getElementById('t_reg_sub').textContent=L.reg_sub;
-document.getElementById('pName').placeholder=L.ph_name;
-document.getElementById('pID').placeholder=L.ph_id;
-document.getElementById('pTeam').placeholder=L.ph_team;
-document.getElementById('t_opt_plat').textContent=L.opt_plat;
-document.getElementById('t_btn_enter').textContent=L.btn_enter;
-document.getElementById('t_tab_mobile').textContent=L.tab_mobile;
-document.getElementById('t_tab_emu').textContent=L.tab_emu;
-document.getElementById('t_discord_btn').textContent=L.discord_btn;
-document.getElementById('t_discord_small').textContent=L.discord_small;
+const userLang=(navigator.language||'es').toLowerCase();const isEnglish=userLang.startsWith('en');
+const L=isEnglish?{reg_title:"🎮 REGISTER",reg_sub:"Required to see the Top",ph_name:"In-game name *",ph_id:"Game ID *",ph_team:"Team / Clan *",opt_plat:"Platform *",btn_enter:"ENTER THE TOP 🔥",alert_fill:"❌ FILL ALL FIELDS",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",tab_hacker:"☠️ HACKERS",discord_btn:"💬 JOIN OUR DISCORD",discord_small:"discord.gg/dXU7y79JF - Support, tournaments & recruitment",no_regs:"No players registered yet",btn_registering:"REGISTERING..."}:{reg_title:"🎮 REGISTRO",reg_sub:"Obligatorio para ver el Top",ph_name:"Nombre en el juego *",ph_id:"ID del juego *",ph_team:"Team / Clan *",opt_plat:"Plataforma *",btn_enter:"ENTRAR AL TOP 🔥",alert_fill:"❌ LLENA TODO BRO",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",tab_hacker:"☠️ HACKERS",discord_btn:"💬 ÚNETE A NUESTRO DISCORD",discord_small:"discord.gg/dXU7y79JF - Soporte, torneos y reclutamientos",no_regs:"Aún no hay registrados",btn_registering:"REGISTRANDO..."};
+document.getElementById('t_reg_title').textContent=L.reg_title;document.getElementById('t_reg_sub').textContent=L.reg_sub;document.getElementById('pName').placeholder=L.ph_name;document.getElementById('pID').placeholder=L.ph_id;document.getElementById('pTeam').placeholder=L.ph_team;document.getElementById('t_opt_plat').textContent=L.opt_plat;document.getElementById('t_btn_enter').textContent=L.btn_enter;document.getElementById('t_tab_mobile').textContent=L.tab_mobile;document.getElementById('t_tab_emu').textContent=L.tab_emu;document.getElementById('t_tab_hacker').textContent=L.tab_hacker;document.getElementById('t_discord_btn').textContent=L.discord_btn;document.getElementById('t_discord_small').textContent=L.discord_small;
 
 const DB="https://bwtiers-e00f0-default-rtdb.firebaseio.com";
 const mobilePlayers=["Amaury","NotEgo","CnBeast","Flaax","Flinney","Elzair","Kurio","Beta","Zactyo","Naxo","Ownzy","Kairo","Killer","Rishi","Adish","Yuta","Kisaki","Samurai","zeus","Quar"];
 const emuPlayers=["Beny","Bannks","Fredd","Azuky","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
-let allLikes={}, allRegs={};
-const pCont=document.getElementById('particles');for(let i=0;i<25;i++){const d=document.createElement('div');d.className='particle';d.style.left=Math.random()*100+'%';d.style.animationDuration=(Math.random()*10+10)+'s';d.style.animationDelay=Math.random()*10+'s';d.style.width=d.style.height=(Math.random()*3+1)+'px';pCont.appendChild(d);}
+const hackersPlayers=["EternalHacker_BG","1xnl","Abood","Naho","Wings BG","Xebas","Aneld"];
+let allLikes={},allRegs={};
+const pCont=document.getElementById('particles');for(let i=0;i<35;i++){const d=document.createElement('div');d.className='particle';d.style.left=Math.random()*100+'%';d.style.animationDuration=(Math.random()*8+6)+'s';d.style.animationDelay=Math.random()*8+'s';d.style.width=d.style.height=(Math.random()*4+1)+'px';pCont.appendChild(d);}
 function checkLock(){if(localStorage.getItem('bw_registered')){document.getElementById('popup').style.display='none';document.getElementById('mainWrap').classList.add('unlocked');}}
 async function doRegister(){const name=document.getElementById('pName').value.trim();const idGame=document.getElementById('pID').value.trim();const plat=document.getElementById('pPlat').value;const team=document.getElementById('pTeam').value.trim();if(!name||!idGame||!plat||!team){alert(L.alert_fill);return;}const btn=document.getElementById('t_btn_enter');btn.textContent=L.btn_registering;btn.disabled=true;const id=Date.now();const data={name,idGame,plat,team,date:new Date().toLocaleDateString()};try{await fetch(DB+`/registered/${id}.json`,{method:'PUT',body:JSON.stringify(data)});localStorage.setItem('bw_registered',JSON.stringify(data));allRegs[id]=data;document.getElementById('popup').style.display='none';document.getElementById('mainWrap').classList.add('unlocked');}catch(e){alert('Error');btn.disabled=false;btn.textContent=L.btn_enter;}}
 async function load(){try{const r1=await fetch(DB+"/likes.json");allLikes=await r1.json()||{};}catch(e){}try{const r2=await fetch(DB+"/registered.json");allRegs=await r2.json()||{};}catch(e){}render();renderRegs();}
-function render(){renderList('mobile',mobilePlayers);renderList('emu',emuPlayers);}
-function renderList(id,players){const c=document.getElementById(id);c.innerHTML="";const my=JSON.parse(localStorage.getItem('myLikes')||'[]');players.forEach((name,i)=>{const rank=i+1;let ex=rank==1?'t1':'';let nc=rank==1?'gold':'';const key=id+"_"+name.replace(/\s/g,'_');const count=allLikes[key]||0;const liked=my.includes(key)?"liked":"";c.innerHTML+=`<div class="card ${ex}"><div class="num ${nc}">T${rank}</div><div class="name">${name} ${rank==1?'👑':''}</div><div class="like ${liked}" onclick="like('${key}')"><span>❤️</span><b>${count}</b></div></div>`;});}
+function render(){renderList('mobile',mobilePlayers,false);renderList('emu',emuPlayers,false);renderList('hackers',hackersPlayers,true);}
+function renderList(id,players,isHacker){
+const c=document.getElementById(id);c.innerHTML="";const my=JSON.parse(localStorage.getItem('myLikes')||'[]');
+players.forEach((name,i)=>{
+const rank=i+1;
+let ex="";if(!isHacker&&rank==1)ex="t1";if(isHacker){if(rank==1)ex="t1";else if(rank==2)ex="t2";else if(rank==3)ex="t3";else ex="hacker"}
+let nc="";if(!isHacker&&rank==1)nc="gold";if(isHacker)nc="hacker-gold";
+const key=id+"_"+name.replace(/\s/g,'_');const count=allLikes[key]||0;const liked=my.includes(key)?"liked":"";
+let badge="";if(isHacker&&rank<=3){badge=`<span class="badge badge-gay">🌈 Gay</span>`}
+c.innerHTML+=`<div class="card ${ex}" style="animation-delay:${i*0.07}s"><div class="num ${nc}">${isHacker?'☠️':'T'}${rank}</div><div class="name">${name} ${badge}</div><div class="like ${liked}" onclick="like('${key}')"><span>❤️</span><b>${count}</b></div></div>`;
+});}
 function renderRegs(){const c=document.getElementById('regsList');const counter=document.getElementById('countRegs');const vals=Object.values(allRegs).reverse();if(counter)counter.textContent=vals.length;if(!c)return;c.innerHTML="";if(vals.length==0){c.innerHTML=`<p style="opacity:.5;text-align:center;margin-top:20px">${L.no_regs}</p>`;return;}vals.forEach(r=>{c.innerHTML+=`<div class="reg-card"><div><b>${r.name}</b> <small style="opacity:.6">(${r.plat})</small><br><small style="opacity:.6">ID: ${r.idGame} | ${r.team}</small></div><div>✅</div></div>`;});}
 async function like(key){const my=JSON.parse(localStorage.getItem('myLikes')||'[]');if(my.includes(key))return;let cur=(allLikes[key]||0)+1;allLikes[key]=cur;my.push(key);localStorage.setItem('myLikes',JSON.stringify(my));render();await fetch(DB+`/likes/${key}.json`,{method:'PUT',body:JSON.stringify(cur)});}
 window.showTab=(id,el)=>{document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
