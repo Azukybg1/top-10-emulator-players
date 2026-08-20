@@ -1,93 +1,162 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BW Galaxy Tiers</title>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BW Galaxy Tiers - Bed Wars Rankings</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;900&family=Orbitron:wght@900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0202;color:#fff;font-family:'Outfit',sans-serif;overflow-x:hidden}
+body{background:#0a0202;color:#fff;font-family:'Outfit',sans-serif;overflow-x:hidden;min-height:100vh}
 .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 20%, #6a0a0a 0%, #2e0a0a 25%, #0a0202 60%, #000 100%)}
 #particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
 .particle{position:absolute;width:3px;height:3px;background:#ff0000;border-radius:50%;box-shadow:0 0 8px #ff0000;animation:floatP linear infinite}
 @keyframes floatP{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(120px);opacity:0}}
-.wrap{max-width:680px;margin:auto;padding:16px;filter:blur(15px);pointer-events:none;transition:.5s}.wrap.unlocked{filter:none;pointer-events:all}
-.lang-switch{position:absolute;top:12px;right:12px;z-index:10;display:flex;gap:6px}
-.lang-btn{background:rgba(255,0,0,0.15);border:1px solid #ff000066;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:900;cursor:pointer;color:#ff9999}
-.lang-btn.active{background:#ff0000;color:#fff;box-shadow:0 0 12px #ff0000}
-h1{text-align:center;font-family:'Orbitron',sans-serif;font-size:30px;font-weight:900;margin-top:32px;color:#ff2222;animation:glowRed 1.5s infinite alternate}
-@keyframes glowRed{from{text-shadow:0 0 10px #ff0000}to{text-shadow:0 0 25px #ff0000,0 0 50px #ff000088}}
+.wrap{max-width:700px;margin:auto;padding:16px;filter:blur(15px);pointer-events:none;transition:.5s}.wrap.unlocked{filter:none;pointer-events:all}
+.lang-switch{position:fixed;top:12px;right:12px;z-index:20;display:flex;gap:6px}
+.lang-btn{background:rgba(255,0,0,0.15);border:1px solid #ff000066;padding:7px 14px;border-radius:20px;font-size:11px;font-weight:900;cursor:pointer;color:#ff9999;transition:.3s}
+.lang-btn.active{background:#ff0000;color:#fff;box-shadow:0 0 15px #ff0000;transform:scale(1.1)}
+h1{text-align:center;font-family:'Orbitron',sans-serif;font-size:32px;font-weight:900;margin-top:45px;color:#ff2222;letter-spacing:1px;text-shadow:0 0 15px #ff0000}
 h1 span{background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 100%;animation:lineMove 2s linear infinite}
-.line{height:3px;background:linear-gradient(90deg,transparent,#ff0000,#ff6600,#ff0000,transparent);margin:12px 0;background-size:200% 100%;animation:lineMove 2s linear infinite}
+.line{height:3px;background:linear-gradient(90deg,transparent,#ff0000,#ff6600,#ff0000,transparent);margin:14px 0;background-size:200% 100%;animation:lineMove 2s linear infinite}
 @keyframes lineMove{0%{background-position:0%}100%{background-position:200%}}
-.tabs{display:flex;gap:8px}.tab{flex:1;padding:12px;border-radius:12px;background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.25);text-align:center;font-weight:900;cursor:pointer;font-size:11px;transition:.3s}
-.tab.active{background:linear-gradient(135deg,#ff0000,#8b0000);box-shadow:0 0 20px #ff0000;transform:scale(1.05)}
+.tabs{display:flex;gap:8px;margin-top:10px}.tab{flex:1;padding:13px;border-radius:12px;background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.25);text-align:center;font-weight:900;cursor:pointer;font-size:12px;transition:.3s}
+.tab.active{background:linear-gradient(135deg,#ff0000,#8b0000);box-shadow:0 0 20px #ff0000;transform:scale(1.05);color:#fff}
 .list{display:none;margin-top:16px}.list.active{display:block}
-.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,0,0,0.15);border-radius:14px;padding:12px 13px;display:flex;align-items:center;gap:10px;margin-bottom:10px;transition:.3s;cursor:pointer;animation:slideIn.4s backwards}
-.card:hover{transform:translateX(5px);border-color:#ff000088}
+.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,0,0,0.15);border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:11px;margin-bottom:10px;transition:.3s;cursor:pointer;animation:slideIn.4s backwards}
+.card:hover{transform:translateX(6px) scale(1.01);border-color:#ff000088;box-shadow:0 5px 25px #ff000033}
 @keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-.card.t1{border:2px solid #ffaa00;background:linear-gradient(135deg,rgba(255,170,0,0.15),rgba(255,0,0,0.1));box-shadow:0 0 20px #ffaa00aa;animation:pulseFire 1.8s infinite}
-@keyframes pulseFire{0%,100%{box-shadow:0 0 20px #ffaa00aa}50%{box-shadow:0 0 35px #ffaa00}}
-.num{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:11px;background:#150505;border:1px solid #330000;flex-shrink:0}
-.num.gold{background:linear-gradient(135deg,#fff176,#ffaa00,#ff4400);color:#000;box-shadow:0 0 15px #ffaa00}
-.name{font-weight:800;flex:1;line-height:1.2}.badge-history{background:rgba(255,0,0,0.2);border:1px solid #ff0000;color:#ff9999;font-size:9px;margin-top:4px;display:inline-block;padding:2px 7px;border-radius:10px}
-.like{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,0,0,0.2);padding:6px 10px;border-radius:20px;cursor:pointer;flex-shrink:0}
-.like.liked{background:linear-gradient(135deg,#ff0000,#8b0000);pointer-events:none;opacity:.6}
-#popup{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px}
-.popup-box{background:#1a0505;border:2px solid #ff0000;border-radius:20px;padding:22px;width:100%;max-width:380px;box-shadow:0 0 40px #ff000088}
-.popup-box h2{text-align:center;font-size:22px;color:#ff2222}.popup-box p{text-align:center;opacity:.6;font-size:12px;margin:6px 0 14px}
-.popup-box input,.popup-box select{width:100%;padding:13px;border-radius:12px;background:#0a0202;border:1px solid #440000;color:#fff;margin-bottom:10px;font-family:'Outfit';font-size:13px;outline:none}
-.popup-box button{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;font-weight:900;cursor:pointer}
+.card.t1{border:2px solid #ffaa00;background:linear-gradient(135deg,rgba(255,170,0,0.18),rgba(255,0,0,0.12));box-shadow:0 0 25px #ffaa00aa;animation:pulseFire 1.8s infinite}
+@keyframes pulseFire{0%,100%{box-shadow:0 0 20px #ffaa00aa}50%{box-shadow:0 0 40px #ffaa00}}
+.num{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-weight:900;font-size:12px;background:#150505;border:1px solid #330000;flex-shrink:0}
+.num.gold{background:linear-gradient(135deg,#fff176,#ffaa00,#ff4400);color:#000;box-shadow:0 0 15px #ffaa00;font-size:13px}
+.name{font-weight:800;flex:1;font-size:14px}.badge-history{background:rgba(255,0,0,0.18);border:1px solid #ff0000;color:#ffaaaa;font-size:9px;margin-top:5px;display:inline-block;padding:3px 8px;border-radius:12px}
+.like{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,0,0,0.25);padding:7px 12px;border-radius:20px;cursor:pointer;flex-shrink:0;transition:.2s}
+.like:active{transform:scale(.9)}.like.liked{background:linear-gradient(135deg,#ff0000,#8b0000);pointer-events:none;opacity:.6}
+#popup{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.93);backdrop-filter:blur(14px);display:grid;place-items:center;padding:18px}
+.popup-box{background:linear-gradient(180deg,#1f0808,#120303);border:2px solid #ff0000;border-radius:22px;padding:24px;width:100%;max-width:400px;box-shadow:0 0 50px #ff000088}
+.popup-box h2{text-align:center;font-size:24px;color:#ff2222;letter-spacing:1px}.popup-box p{text-align:center;opacity:.6;font-size:12px;margin:8px 0 16px}
+.popup-box input,.popup-box select{width:100%;padding:14px;border-radius:12px;background:#0a0202;border:1px solid #440000;color:#fff;margin-bottom:11px;font-family:'Outfit';font-size:14px;outline:none;transition:.2s}
+.popup-box input:focus,.popup-box select:focus{border-color:#ff0000;box-shadow:0 0 12px #ff000044}
+.popup-box button{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;font-weight:900;cursor:pointer;font-size:14px;box-shadow:0 5px 20px #ff000044}
 #profileModal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);display:none;place-items:center;padding:18px}
 #profileModal.show{display:grid}
-.profile-box{background:#1a0505;border:2px solid #ff0000;border-radius:20px;padding:20px;width:100%;max-width:380px;box-shadow:0 0 40px #ff0000;position:relative}
-.reg-card{background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.3);border-radius:12px;padding:11px;margin-bottom:8px;display:flex;justify-content:space-between}
-.discord-footer{margin-top:25px;text-align:center;padding:20px;border-top:1px solid rgba(255,0,0,0.2)}
-.discord-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;padding:14px 28px;border-radius:12px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 0 20px #ff000088}
+.profile-box{background:#1a0505;border:2px solid #ff0000;border-radius:20px;padding:22px;width:100%;max-width:400px;box-shadow:0 0 40px #ff0000;position:relative}
+.reg-card{background:rgba(255,0,0,0.08);border:1px solid rgba(255,0,0,0.25);border-radius:12px;padding:12px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}
+.discord-footer{margin-top:30px;text-align:center;padding:22px;border-top:1px solid rgba(255,0,0,0.2)}
+.discord-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff0000,#8b0000);color:#fff;padding:15px 30px;border-radius:12px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 0 25px #ff000088;transition:.3s}
+.discord-btn:hover{transform:scale(1.05);box-shadow:0 0 35px #ff0000}
 </style></head><body>
 <div class="bg"></div><div id="particles"></div>
 <div class="lang-switch"><div class="lang-btn active" id="btnES" onclick="setLang('es')">ES</div><div class="lang-btn" id="btnEN" onclick="setLang('en')">EN</div></div>
 
 <div id="popup"><div class="popup-box"><h2 id="t_reg_title">🎮 REGISTRO</h2><p id="t_reg_sub">Obligatorio para ver el Top</p>
-<input id="pName" placeholder="Nombre *"><input id="pID" type="number" placeholder="ID *">
-<select id="pPlat"><option value="" id="t_opt_plat">Plataforma *</option><option value="Mobile">📱 Mobile</option><option value="Emu">💻 Emu</option></select>
-<input id="pTeam" placeholder="Team *"><button onclick="doRegister()" id="t_btn_enter">ENTRAR AL TOP 🔥</button></div></div>
+<input id="pName" placeholder="Nombre *"><input id="pID" type="number" placeholder="ID del juego *">
+<select id="pPlat"><option value="" id="t_opt_plat">Plataforma *</option><option value="Mobile">📱 Mobile</option><option value="Emu">💻 Emulador</option></select>
+<input id="pTeam" placeholder="Team / Clan *"><button onclick="doRegister()" id="t_btn_enter">ENTRAR AL TOP 🔥</button></div></div>
 
-<div id="profileModal" onclick="if(event.target==this)closeProfile()"><div class="profile-box"><button onclick="closeProfile()" style="position:absolute;top:10px;right:15px;background:none;border:none;color:#fff;font-size:22px;cursor:pointer">✕</button><h2 id="profName"></h2><p id="profRank" style="text-align:center;margin:8px 0;font-weight:900"></p><div id="profHistory"></div></div></div>
+<div id="profileModal" onclick="if(event.target==this)closeProfile()"><div class="profile-box"><button onclick="closeProfile()" style="position:absolute;top:10px;right:15px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer">✕</button><h2 id="profName" style="text-align:center"></h2><p id="profRank" style="text-align:center;margin:10px 0;font-weight:900"></p><div id="profHistory" style="margin-top:14px"></div></div></div>
 
-<div class="wrap" id="mainWrap"><h1>BLOCKMAN GO<br><span>BED WARS</span></h1><div class="line"></div>
-<div style="text-align:center;font-size:11px;opacity:.6;margin-bottom:10px"><span id="t_season">Temporada</span>: <span id="currentMonthYear"></span></div>
+<div class="wrap" id="mainWrap"><h1>BLOCKMAN GO<br><span>BED WARS RANKINGS</span></h1><div class="line"></div>
+<div style="text-align:center;font-size:11px;opacity:.6;margin-bottom:12px"><span id="t_season">Temporada</span>: <span id="currentMonthYear"></span></div>
 <div class="tabs"><div class="tab active" onclick="showTab('mobile',this)" id="t_tab_mobile">🔥 MOBILE</div><div class="tab" onclick="showTab('emu',this)" id="t_tab_emu">😈 EMU</div><div class="tab" onclick="showTab('regs',this)">📋 (<span id="countRegs">0</span>)</div></div>
 <div id="mobile" class="list active"></div><div id="emu" class="list"></div><div id="regs" class="list"><div id="regsList"></div></div>
-<div class="discord-footer"><a href="https://discord.gg/dXU7y79JF" target="_blank" class="discord-btn" id="t_discord_btn">💬 ÚNETE A NUESTRO DISCORD</a><small id="t_discord_small" style="display:block;margin-top:10px;opacity:.5">discord.gg/dXU7y79JF</small></div></div>
+<div class="discord-footer"><a href="https://discord.gg/dXU7y79JF" target="_blank" class="discord-btn" id="t_discord_btn">💬 ÚNETE A NUESTRO DISCORD</a><small id="t_discord_small" style="display:block;margin-top:12px;opacity:.5;font-size:11px">discord.gg/dXU7y79JF - Torneos, reclutamientos y soporte</small></div></div>
 
 <script>
 let curLang=localStorage.getItem('bw_lang')||'es';
 const DB="https://bwtiers-e00f0-default-rtdb.firebaseio.com";
-// TOP MOBILE FINAL QUE PEDISTE
+// TOP MOBILE ACTUAL QUE TU ME DISTE - FINAL
 const mobilePlayers=["Amaury","NotEgo","CnBeast","Flaax","Flinney","Elzair","EgeOwns","Kurio","Beta","Zactyo","Naxo","Ownzy","Kairo","Killer","Rishi","Adish","Yuta","Kisaki","Samurai","Quar","ZeusDiff"];
-const emuPlayers=["Beny","Bannks","Fredd","Azuky","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta","Ownzy","Kairo","Kurio","Naxo"];
+const emuPlayers=["Beny","Bannks","Fredd","Azuky","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta","Ownzy","Kairo","Kurio","Naxo","Killer"];
+
 const I18N={
- es:{reg_title:"🎮 REGISTRO",reg_sub:"Obligatorio para ver el Top",ph_name:"Nombre *",ph_id:"ID *",ph_team:"Team *",opt_plat:"Plataforma *",btn_enter:"ENTRAR AL TOP 🔥",alert_fill:"❌ LLENA TODO",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",season:"Temporada",discord_btn:"💬 ÚNETE A NUESTRO DISCORD",discord_small:"Soporte, torneos y reclutamientos",no_regs:"Aún no hay registrados",was_top:"Fue",in_month:"en",current_top:"Top Actual",history:"📜 Historial",will_next:"Aparecerá el próximo mes"},
- en:{reg_title:"🎮 REGISTER",reg_sub:"Required to see the Top",ph_name:"Name *",ph_id:"Game ID *",ph_team:"Team *",opt_plat:"Platform *",btn_enter:"ENTER THE TOP 🔥",alert_fill:"❌ FILL ALL FIELDS",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",season:"Season",discord_btn:"💬 JOIN OUR DISCORD",discord_small:"Support, tournaments & recruitments",no_regs:"No players yet",was_top:"Was",in_month:"in",current_top:"Current Top",history:"📜 History",will_next:"Will appear next month"}
+ es:{reg_title:"🎮 REGISTRO",reg_sub:"Obligatorio para ver el Top - Sin hackers",ph_name:"Nombre en el juego *",ph_id:"ID del juego *",ph_team:"Team / Clan *",opt_plat:"Plataforma *",btn_enter:"ENTRAR AL TOP 🔥",alert_fill:"❌ LLENA TODO BRO",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",season:"Temporada",discord_btn:"💬 ÚNETE A NUESTRO DISCORD",discord_small:"discord.gg/dXU7y79JF - Torneos y soporte",no_regs:"Aún no hay registrados",was_top:"Fue",in_month:"en",current_top:"Top Actual",history:"📜 Historial",will_next:"Aparecerá el próximo mes",loading:"Cargando..."},
+ en:{reg_title:"🎮 REGISTER",reg_sub:"Required to see the Top - No hackers",ph_name:"In-game Name *",ph_id:"Game ID *",ph_team:"Team / Clan *",opt_plat:"Platform *",btn_enter:"ENTER THE TOP 🔥",alert_fill:"❌ FILL ALL FIELDS BRO",tab_mobile:"🔥 MOBILE",tab_emu:"😈 EMU",season:"Season",discord_btn:"💬 JOIN OUR DISCORD",discord_small:"discord.gg/dXU7y79JF - Tournaments & support",no_regs:"No players yet",was_top:"Was",in_month:"in",current_top:"Current Top",history:"📜 History",will_next:"Will appear next month",loading:"Loading..."}
 };
 const months={es:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],en:["January","February","March","April","May","June","July","August","September","October","November","December"]};
 
 function setLang(l){curLang=l;localStorage.setItem('bw_lang',l);document.getElementById('btnES').classList.toggle('active',l=='es');document.getElementById('btnEN').classList.toggle('active',l=='en');applyLang();}
-function applyLang(){const L=I18N[curLang];document.getElementById('t_reg_title').textContent=L.reg_title;document.getElementById('t_reg_sub').textContent=L.reg_sub;document.getElementById('pName').placeholder=L.ph_name;document.getElementById('pID').placeholder=L.ph_id;document.getElementById('pTeam').placeholder=L.ph_team;document.getElementById('t_opt_plat').textContent=L.opt_plat;document.getElementById('t_btn_enter').textContent=L.btn_enter;document.getElementById('t_tab_mobile').textContent=L.tab_mobile;document.getElementById('t_tab_emu').textContent=L.tab_emu;document.getElementById('t_season').textContent=L.season;document.getElementById('t_discord_btn').textContent=L.discord_btn;document.getElementById('t_discord_small').textContent=L.discord_small;renderDate();render();}
+function applyLang(){const L=I18N[curLang];document.getElementById('t_reg_title').textContent=L.reg_title;document.getElementById('t_reg_sub').textContent=L.reg_sub;document.getElementById('pName').placeholder=L.ph_name;document.getElementById('pID').placeholder=L.ph_id;document.getElementById('pTeam').placeholder=L.ph_team;document.getElementById('t_opt_plat').textContent=L.opt_plat;document.getElementById('t_btn_enter').textContent=L.btn_enter;document.getElementById('t_tab_mobile').textContent=L.tab_mobile;document.getElementById('t_tab_emu').textContent=L.tab_emu;document.getElementById('t_season').textContent=L.season;document.getElementById('t_discord_btn').textContent=L.discord_btn;document.getElementById('t_discord_small').textContent=L.discord_small;renderDate();render();renderRegs();}
 function renderDate(){const now=new Date();document.getElementById('currentMonthYear').textContent=`${months[curLang][now.getMonth()]} ${now.getFullYear()}`;}
 
 let allLikes={},allRegs={},allHistory={};
-const pCont=document.getElementById('particles');for(let i=0;i<40;i++){const d=document.createElement('div');d.className='particle';d.style.left=Math.random()*100+'%';d.style.animationDuration=(Math.random()*8+6)+'s';d.style.animationDelay=Math.random()*8+'s';d.style.width=d.style.height=(Math.random()*4+1.5)+'px';pCont.appendChild(d);}
+const pCont=document.getElementById('particles');for(let i=0;i<45;i++){const d=document.createElement('div');d.className='particle';d.style.left=Math.random()*100+'%';d.style.animationDuration=(Math.random()*8+6)+'s';d.style.animationDelay=Math.random()*8+'s';let s=Math.random()*4+1; d.style.width=s+'px';d.style.height=s+'px';pCont.appendChild(d);}
 
 function checkLock(){if(localStorage.getItem('bw_registered')){document.getElementById('popup').style.display='none';document.getElementById('mainWrap').classList.add('unlocked');}}
-async function doRegister(){const name=document.getElementById('pName').value.trim();const idGame=document.getElementById('pID').value.trim();const plat=document.getElementById('pPlat').value;const team=document.getElementById('pTeam').value.trim();if(!name||!idGame||!plat||!team){alert(I18N[curLang].alert_fill);return;}const btn=document.getElementById('t_btn_enter');btn.disabled=true;btn.textContent="...";const id=Date.now();const data={name,idGame,plat,team,date:new Date().toLocaleDateString()};try{await fetch(DB+`/registered/${id}.json`,{method:'PUT',body:JSON.stringify(data)});localStorage.setItem('bw_registered',JSON.stringify(data));document.getElementById('popup').style.display='none';document.getElementById('mainWrap').classList.add('unlocked');load();}catch(e){alert("Error");btn.disabled=false;btn.textContent=I18N[curLang].btn_enter;}}
+async function doRegister(){
+ const name=document.getElementById('pName').value.trim();
+ const idGame=document.getElementById('pID').value.trim();
+ const plat=document.getElementById('pPlat').value;
+ const team=document.getElementById('pTeam').value.trim();
+ if(!name||!idGame||!plat||!team){alert(I18N[curLang].alert_fill);return;}
+ const btn=document.getElementById('t_btn_enter');
+ btn.disabled=true; btn.textContent=I18N[curLang].loading;
+ const id=Date.now();
+ const data={name,idGame,plat,team,date:new Date().toLocaleDateString(),lang:curLang};
+ try{
+   await fetch(DB+`/registered/${id}.json`,{method:'PUT',body:JSON.stringify(data)});
+   localStorage.setItem('bw_registered',JSON.stringify(data));
+   document.getElementById('popup').style.display='none';
+   document.getElementById('mainWrap').classList.add('unlocked');
+   load();
+ }catch(e){alert("Error de conexión"); btn.disabled=false; btn.textContent=I18N[curLang].btn_enter;}
+}
 
 async function load(){try{const r1=await fetch(DB+"/likes.json");allLikes=await r1.json()||{};}catch(e){}try{const r2=await fetch(DB+"/registered.json");allRegs=await r2.json()||{};}catch(e){}try{const r3=await fetch(DB+"/history.json");allHistory=await r3.json()||{};}catch(e){}render();renderRegs();checkAndSaveHistory();}
-function checkAndSaveHistory(){const now=new Date();let lastMonth=now.getMonth()==0?11:now.getMonth()-1;let lastYear=now.getMonth()==0?now.getFullYear()-1:now.getFullYear();let key=`${lastYear}-${String(lastMonth+1).padStart(2,'0')}`;if(!allHistory[key]){const snapshot={mobile:{},emu:{},month:lastMonth,year:lastYear};mobilePlayers.forEach((n,i)=>snapshot.mobile[n]=i+1);emuPlayers.forEach((n,i)=>snapshot.emu[n]=i+1);fetch(DB+`/history/${key}.json`,{method:'PUT',body:JSON.stringify(snapshot)});allHistory[key]=snapshot;}}
+function checkAndSaveHistory(){const now=new Date();let lastMonth=now.getMonth()==0?11:now.getMonth()-1;let lastYear=now.getMonth()==0?now.getFullYear()-1:now.getFullYear();let key=`${lastYear}-${String(lastMonth+1).padStart(2,'0')}`;if(!allHistory[key]){const snap={mobile:{},emu:{},month:lastMonth,year:lastYear};mobilePlayers.forEach((n,i)=>snap.mobile[n]=i+1);emuPlayers.forEach((n,i)=>snap.emu[n]=i+1);fetch(DB+`/history/${key}.json`,{method:'PUT',body:JSON.stringify(snap)});allHistory[key]=snap;}}
 function render(){renderList('mobile',mobilePlayers);renderList('emu',emuPlayers);}
-function renderList(id,players){const c=document.getElementById(id);c.innerHTML="";const my=JSON.parse(localStorage.getItem('myLikes')||'[]');const L=I18N[curLang];players.forEach((name,i)=>{const rank=i+1;let ex=rank==1?"t1":"";let nc=rank==1?"gold":"";const countKey=id+"_"+name;const count=allLikes[countKey]||0;const liked=my.includes(countKey)?"liked":"";let badge="";const now=new Date();let lastMonth=now.getMonth()==0?11:now.getMonth()-1;let lastYear=now.getMonth()==0?now.getFullYear()-1:now.getFullYear();let lastKey=`${lastYear}-${String(lastMonth+1).padStart(2,'0')}`;const hist=allHistory[lastKey];if(hist&&hist[id]&&hist[id][name]){badge=`<span class="badge-history">${L.was_top} T${hist[id][name]} ${L.in_month} ${months[curLang][hist.month]} ${hist.year}</span>`;}c.innerHTML+=`<div class="card ${ex}" style="animation-delay:${i*0.05}s" onclick="openProfile('${name}',${rank},'${id}')"><div class="num ${nc}">T${rank}</div><div class="name">${name}<br>${badge}</div><div class="like ${liked}" onclick="event.stopPropagation();like('${countKey}')"><span>❤️</span><b>${count}</b></div></div>`;});}
-function openProfile(name,rank,cat){const L=I18N[curLang];document.getElementById('profileModal').classList.add('show');document.getElementById('profName').textContent=name;const now=new Date();document.getElementById('profRank').innerHTML=`${L.current_top}: <span style="color:#ff0000">T${rank}</span> en ${cat.toUpperCase()} - ${months[curLang][now.getMonth()]} ${now.getFullYear()}`;let html=`<h3 style="font-size:13px;opacity:.8;margin:10px 0 6px">${L.history}</h3>`;let has=false;Object.keys(allHistory).sort().reverse().forEach(k=>{const h=allHistory[k];if(h[cat]&&h[cat][name]){has=true;html+=`<div style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);padding:8px 10px;border-radius:10px;margin-bottom:6px;display:flex;justify-content:space-between"><span>${months[curLang][h.month]} ${h.year}</span><b>T${h[cat][name]}</b></div>`;}});if(!has){html+=`<p style="opacity:.5;font-size:12px;text-align:center">${L.will_next}<br>Ej: ${L.was_top} T${rank} ${L.in_month} ${months[curLang][now.getMonth()==0?11:now.getMonth()-1]}</p>`;}document.getElementById('profHistory').innerHTML=html;}
+function renderList(id,players){
+ const c=document.getElementById(id); c.innerHTML="";
+ const my=JSON.parse(localStorage.getItem('myLikes')||'[]');
+ const L=I18N[curLang];
+ players.forEach((name,i)=>{
+   const rank=i+1;
+   const ex=rank==1?"t1":"";
+   const nc=rank==1?"gold":"";
+   const countKey=id+"_"+name;
+   const count=allLikes[countKey]||0;
+   const liked=my.includes(countKey)?"liked":"";
+   let badge="";
+   const now=new Date(); let lm=now.getMonth()==0?11:now.getMonth()-1; let ly=now.getMonth()==0?now.getFullYear()-1:now.getFullYear(); let lk=`${ly}-${String(lm+1).padStart(2,'0')}`;
+   const hist=allHistory[lk];
+   if(hist&&hist[id]&&hist[id][name]){badge=`<span class="badge-history">${L.was_top} T${hist[id][name]} ${L.in_month} ${months[curLang][hist.month]} ${hist.year}</span>`;}
+   c.innerHTML+=`<div class="card ${ex}" style="animation-delay:${i*0.04}s" onclick="openProfile('${name}',${rank},'${id}')"><div class="num ${nc}">T${rank}</div><div class="name">${name}<br>${badge}</div><div class="like ${liked}" onclick="event.stopPropagation();like('${countKey}')"><span>❤️</span><b>${count}</b></div></div>`;
+ });
+}
+function openProfile(name,rank,cat){
+ const L=I18N[curLang];
+ document.getElementById('profileModal').classList.add('show');
+ document.getElementById('profName').textContent=name;
+ const now=new Date();
+ document.getElementById('profRank').innerHTML=`${L.current_top}: <span style="color:#ff0000">T${rank}</span> ${cat.toUpperCase()} - ${months[curLang][now.getMonth()]} ${now.getFullYear()}`;
+ let html=`<h3 style="font-size:13px;opacity:.8;margin:10px 0 8px">${L.history}</h3>`;
+ let has=false;
+ Object.keys(allHistory).sort().reverse().forEach(k=>{
+   const h=allHistory[k];
+   if(h[cat]&&h[cat][name]){has=true;html+=`<div style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);padding:9px 11px;border-radius:10px;margin-bottom:7px;display:flex;justify-content:space-between"><span>${months[curLang][h.month]} ${h.year}</span><b style="color:#ff4444">T${h[cat][name]}</b></div>`;}
+ });
+ if(!has){html+=`<p style="opacity:.5;font-size:12px;text-align:center;margin-top:10px">${L.will_next}<br>${L.was_top} T${rank} ${L.in_month} ${months[curLang][now.getMonth()==0?11:now.getMonth()-1]}</p>`;}
+ document.getElementById('profHistory').innerHTML=html;
+}
 function closeProfile(){document.getElementById('profileModal').classList.remove('show');}
-function renderRegs(){const c=document.getElementById('regsList');const counter=document.getElementById('countRegs');const vals=Object.values(allRegs).reverse();if(counter)counter.textContent=vals.length;if(!c)return;c.innerHTML="";const L=I18N[curLang];if(vals.length==0){c.innerHTML=`<p style="opacity:.5;text-align:center;margin-top:20px">${L.no_regs}</p>`;return;}vals.forEach(r=>{c.innerHTML+=`<div class="reg-card"><div><b>${r.name}</b> <small style="opacity:.6">(${r.plat})</small><br><small style="opacity:.6">ID: ${r.idGame} | ${r.team}</small></div><div>✅</div></div>`;});}
-async function like(k){const my=JSON.parse(localStorage.getItem('myLikes')||'[]');if(my.includes(k))return;let cur=(allLikes[k]||0)+1;allLikes[k]=cur;my.push(k);localStorage.setItem('myLikes',JSON.stringify(my));render();await fetch(DB+`/likes/${k}.json`,{method:'PUT',body:JSON.stringify(cur)});}
+function renderRegs(){
+ const c=document.getElementById('regsList');
+ const counter=document.getElementById('countRegs');
+ const vals=Object.values(allRegs).reverse();
+ if(counter)counter.textContent=vals.length;
+ if(!c)return; c.innerHTML="";
+ const L=I18N[curLang];
+ if(vals.length==0){c.innerHTML=`<p style="opacity:.5;text-align:center;margin-top:25px">${L.no_regs}</p>`;return;}
+ vals.forEach(r=>{c.innerHTML+=`<div class="reg-card"><div><b>${r.name}</b> <small style="opacity:.6">(${r.plat})</small><br><small style="opacity:.6">ID: ${r.idGame} | ${r.team} • ${r.date}</small></div><div style="font-size:18px">✅</div></div>`;});
+}
+async function like(k){
+ const my=JSON.parse(localStorage.getItem('myLikes')||'[]');
+ if(my.includes(k))return;
+ let cur=(allLikes[k]||0)+1;
+ allLikes[k]=cur;
+ my.push(k);
+ localStorage.setItem('myLikes',JSON.stringify(my));
+ render();
+ try{await fetch(DB+`/likes/${k}.json`,{method:'PUT',body:JSON.stringify(cur)});}catch(e){}
+}
 window.showTab=(id,el)=>{document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
-setLang(curLang);checkLock();load();setInterval(load,8000);
+
+setLang(curLang);checkLock();load();setInterval(load,10000);
 </script></body></html>
