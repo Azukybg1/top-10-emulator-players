@@ -10,30 +10,31 @@ body{background:#070707;color:#fff;font-family:Inter,Arial,sans-serif;overflow-x
 canvas{position:fixed;inset:0;z-index:-1;pointer-events:none}
 #hearts{z-index:1} #pixels{opacity:.7}
 .container{max-width:900px;margin:0 auto;padding:20px;position:relative;z-index:2}
-h1{text-align:center;font-size:44px;font-weight:900;animation:glow 3s infinite alternate;letter-spacing:3px;line-height:1}
+h1{text-align:center;font-size:44px;font-weight:900;letter-spacing:3px;line-height:1;animation:glow 3s infinite alternate}
 @keyframes glow{from{text-shadow:0 0 10px #fff3}to{text-shadow:0 0 30px #fff}}
-.sub{text-align:center;opacity:.5;font-size:13px;letter-spacing:5px;margin:12px 0 22px}
-.tools{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap}
-.tools button{background:#111;border:1px solid #2a2a2a;color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;transition:.3s}
+.sub{text-align:center;opacity:.6;font-size:13px;letter-spacing:3px;margin:12px 0 6px}
+.date{text-align:center;opacity:.4;font-size:11px;margin-bottom:18px;letter-spacing:1px}
+.tools{display:flex;justify-content:center;margin-bottom:22px}
+.tools button{background:#111;border:1px solid #2a2a2a;color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer}
 .tools button.active{background:#fff;color:#000;box-shadow:0 0 15px #fff}
 .tabs{display:flex;gap:12px;margin-bottom:26px}
-.tab{flex:1;padding:16px;text-align:center;border-radius:999px;font-weight:900;font-size:16px;cursor:pointer;background:#141414;border:1px solid #222;transition:.3s}
+.tab{flex:1;padding:16px;text-align:center;border-radius:999px;font-weight:900;font-size:16px;cursor:pointer;background:#141414;border:1px solid #222}
 .tab.active{background:#fff;color:#000;box-shadow:0 0 25px #fff6;transform:scale(1.03)}
-.list{display:none}.list.active{display:block;animation:rise.4s}
-@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.list{display:none}.list.active{display:block}
 .card{background:#111;border:1px solid #1f1f1f;border-radius:18px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.3s}
-.card:hover{border-color:#fff4;transform:translateX(5px);box-shadow:0 0 20px #ffffff0a}
+.card:hover{border-color:#fff4;transform:translateX(5px)}
 .card.top{border-color:#ffffff33;box-shadow:0 0 18px #ffffff15}
 .row{display:flex;align-items:center;gap:18px;padding:20px 24px}
-.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px;flex-shrink:0}
-.card.top.rank{background:#fff;color:#000;box-shadow:0 0 18px #fff;font-size:20px}
-.name{font-weight:800;font-size:20px;letter-spacing:0.5px}
-.tag{margin-left:auto;font-size:12px;font-weight:900;background:#fff;color:#000;padding:8px 14px;border-radius:20px;flex-shrink:0}
+.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px}
+.card.top.rank{background:#fff;color:#000;box-shadow:0 0 18px #fff}
+.name{font-weight:800;font-size:20px}
+.tag{margin-left:auto;font-size:12px;font-weight:900;background:#fff;color:#000;padding:8px 14px;border-radius:20px}
 .tag.goat{background:linear-gradient(90deg,#fff,#aaa);box-shadow:0 0 12px #fff}
-.history{max-height:0;overflow:hidden;transition:.4s;background:#0a0a0a;border-top:1px solid #1a1a1a}
-.card.open.history{max-height:500px;padding:16px 24px}
-.hist-title{font-size:11px;opacity:.5;letter-spacing:2px;margin-bottom:10px}
-.hist-item{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px solid #151515}
+.history{max-height:0;overflow:hidden;transition:.5s;background:#0a0a0a;border-top:1px solid #1a1a1a}
+.card.open.history{max-height:800px;padding:16px 24px}
+.hist-title{font-size:11px;opacity:.5;letter-spacing:2px;margin-bottom:10px;display:flex;justify-content:space-between}
+.hist-item{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #151515}
+.hist-item b{color:#fff}
 </style>
 </head>
 <body>
@@ -41,10 +42,8 @@ h1{text-align:center;font-size:44px;font-weight:900;animation:glow 3s infinite a
 <div class="container">
 <h1>BLOCKMAN GO<br>BED WARS</h1>
 <div class="sub">OFFICIAL RANKINGS</div>
-<div class="tools">
-<button id="heartToggle" onclick="toggleHearts()">🤍 HEARTS: OFF</button>
-<button onclick="saveNewMonth()">📅 SAVE NEW MONTH</button>
-</div>
+<div id="currentDate" class="date"></div>
+<div class="tools"><button id="heartToggle" onclick="toggleHearts()">🤍 HEARTS: OFF</button></div>
 <div class="tabs">
 <div class="tab active" onclick="showTab('mobile',this)">TOP MOBILE</div>
 <div class="tab" onclick="showTab('emu',this)">TOP EMULATOR</div>
@@ -53,33 +52,68 @@ h1{text-align:center;font-size:44px;font-weight:900;animation:glow 3s infinite a
 <div id="emu" class="list"></div>
 </div>
 <script>
-let defaultMobile=["Amaury","NotEgo","Cnbeast","Huzu","Flaax","Flinney","Elzair","EgeOwns","Kurio","Beta","Zactyo","Naxo","Ownzy","Harsh","Kairo","Killer","Rishi","Adish","Yuta","Quar"];
-let defaultEmu=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
-function getMonth(){return new Date().toLocaleString('en-US',{month:'short',year:'numeric'})}
-function load(){let d=localStorage.getItem('bg_rankings_v4_big');if(d){return JSON.parse(d)}else{let init={};defaultMobile.forEach((n,i)=>init['M_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]],goat:i<3});defaultEmu.forEach((n,i)=>init['E_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]],goat:false});return {players:init,lastMonth:"Jul 2025",currentMobile:defaultMobile,currentEmu:defaultEmu}}}
-let data=load();function save(){localStorage.setItem('bg_rankings_v4_big',JSON.stringify(data))}
+// === EDIT ONLY HERE FOR NEW RANKINGS ===
+let CURRENT_MOBILE=["Amaury","NotEgo","Cnbeast","Huzu","Flaax","Flinney","Elzair","EgeOwns","Kurio","Beta","Zactyo","Naxo","Ownzy","Harsh","Kairo","Killer","Rishi","Adish","Yuta","Quar"];
+let CURRENT_EMU=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
+// =======================================
+
+function getNow(){let d=new Date();return {monthKey:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'), label:d.toLocaleString('en-US',{month:'long',year:'numeric'}), full:d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}}
+function load(){
+ let raw=localStorage.getItem('bg_final_auto');
+ let now=getNow();
+ document.getElementById('currentDate').innerText="TODAY: "+now.full+" | SEASON: "+now.label;
+ if(!raw){
+   let players={};
+   CURRENT_MOBILE.forEach((n,i)=>players['M_'+n]={name:n,history:[],goat:i<3});
+   CURRENT_EMU.forEach((n,i)=>{if(!players['E_'+n])players['E_'+n]={name:n,history:[]}});
+   return {players, lastMonthKey:now.monthKey, lastLabel:now.label, currentMobile:CURRENT_MOBILE, currentEmu:CURRENT_EMU}
+ }
+ let data=JSON.parse(raw);
+ // AUTO DETECT NEW MONTH
+ if(data.lastMonthKey!== now.monthKey){
+   console.log("New month detected! Archiving",data.lastLabel);
+   data.currentMobile.forEach((name,idx)=>{let k='M_'+name;if(!data.players[k])data.players[k]={name,history:[],goat:false};data.players[k].history.unshift([data.lastLabel,"T"+(idx+1)]);});
+   data.currentEmu.forEach((name,idx)=>{let k='E_'+name;if(!data.players[k])data.players[k]={name,history:[],goat:false};data.players[k].history.unshift([data.lastLabel,"T"+(idx+1)]);});
+   data.lastMonthKey=now.monthKey;
+   data.lastLabel=now.label;
+   data.currentMobile=CURRENT_MOBILE;
+   data.currentEmu=CURRENT_EMU;
+   // add new players if exist
+   CURRENT_MOBILE.forEach(n=>{if(!data.players['M_'+n])data.players['M_'+n]={name:n,history:[],goat:false}});
+   CURRENT_EMU.forEach(n=>{if(!data.players['E_'+n])data.players['E_'+n]={name:n,history:[],goat:false}});
+   localStorage.setItem('bg_final_auto',JSON.stringify(data));
+ } else {
+   // update current order if you edited arrays manually
+   data.currentMobile=CURRENT_MOBILE;
+   data.currentEmu=CURRENT_EMU;
+ }
+ return data;
+}
+
+let data=load();
+function save(){localStorage.setItem('bg_final_auto',JSON.stringify(data))}
+
 function render(){
  let m="",e="";
  data.currentMobile.forEach((name,idx)=>{
-   let p=data.players['M_'+name]||{name,history:[],goat:idx<3};
+   let p=data.players['M_'+name]||{name,history:[],goat:false};
    let r=idx+1;let topClass=r<=3?" top":"";let badge=p.goat?'<div class="tag goat">GOAT</div>':(r<=3?'<div class="tag">TOP '+r+'</div>':'');
    let suffix=p.goat?" ⚚ GOAT ⚚":"";
-   let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><span>'+h[1]+'</span></div>').join('')||'<div style="opacity:.4;font-size:13px">New player</div>';
-   m+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' • '+name+suffix+'</div>'+badge+'</div><div class="history"><div class="hist-title">MONTHLY HISTORY - TAP TO CLOSE</div>'+hist+'</div></div>';
+   let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><b>'+h[1]+'</b></div>').join('') || '<div style="opacity:.4;font-size:13px">First month in ranking</div>';
+   m+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' • '+name+suffix+'</div>'+badge+'</div><div class="history"><div class="hist-title"><span>MONTHLY RECORD</span><span>'+p.history.length+' months</span></div>'+hist+'</div></div>';
  });
  data.currentEmu.forEach((name,idx)=>{
-   let p=data.players['E_'+name]||{name,history:[],goat:false};
+   let p=data.players['E_'+name]||{name,history:[]};
    let r=idx+1;let topClass=r<=3?" top":"";let badge=r<=3?'<div class="tag">TOP '+r+'</div>':'';
-   let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><span>'+h[1]+'</span></div>').join('')||'<div style="opacity:.4;font-size:13px">New player</div>';
-   e+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' ┃ '+name+'</div>'+badge+'</div><div class="history"><div class="hist-title">MONTHLY HISTORY</div>'+hist+'</div></div>';
+   let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><b>'+h[1]+'</b></div>').join('') || '<div style="opacity:.4;font-size:13px">First month in ranking</div>';
+   e+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' ┃ '+name+'</div>'+badge+'</div><div class="history"><div class="hist-title"><span>MONTHLY RECORD</span><span>'+p.history.length+' months</span></div>'+hist+'</div></div>';
  });
  document.getElementById('mobile').innerHTML=m;
  document.getElementById('emu').innerHTML=e;
 }
 render();
-function saveNewMonth(){let last=data.lastMonth;let now=getMonth();data.currentMobile.forEach((name,idx)=>{let k='M_'+name;if(!data.players[k])data.players[k]={name,history:[],goat:false};data.players[k].history.unshift([last,'T'+(idx+1)])});data.currentEmu.forEach((name,idx)=>{let k='E_'+name;if(!data.players[k])data.players[k]={name,history:[],goat:false};data.players[k].history.unshift([last,'T'+(idx+1)])});data.lastMonth=now;save();render();alert('History saved: '+last+' -> '+now)}
 function showTab(id,el){document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
-const c=document.getElementById('pixels'),x=c.getContext('2d');let w,h,dots=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}window.addEventListener('resize',rs);rs();for(let i=0;i<70;i++)dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.5+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});(function a(){x.clearRect(0,0,w,h);dots.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/80)*0.4;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=p.o;x.fillStyle='#fff';x.shadowBlur=10;x.shadowColor='#fff';x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();});requestAnimationFrame(a);})();
+const c=document.getElementById('pixels'),x=c.getContext('2d');let w,h,dots=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}window.addEventListener('resize',rs);rs();for(let i=0;i<80;i++)dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.5+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});(function a(){x.clearRect(0,0,w,h);dots.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/80)*0.4;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=p.o;x.fillStyle='#fff';x.shadowBlur=10;x.shadowColor='#fff';x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();});requestAnimationFrame(a);})();
 const hc=document.getElementById('hearts'),hx=hc.getContext('2d');let hearts=[],on=false;function rsH(){hc.width=innerWidth;hc.height=innerHeight}window.addEventListener('resize',rsH);rsH();function toggleHearts(){on=!on;document.getElementById('heartToggle').innerText=on?'🤍 HEARTS: ON':'🤍 HEARTS: OFF';document.getElementById('heartToggle').classList.toggle('active',on);if(on&&hearts.length==0)for(let i=0;i<25;i++)hearts.push({x:Math.random()*hc.width,y:Math.random()*hc.height+hc.height,s:Math.random()*1.2+0.4,o:Math.random()*0.8+0.2,size:Math.random()*16+12,sway:Math.random()*2});}(function ah(){hx.clearRect(0,0,hc.width,hc.height);if(on)hearts.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/100)*p.sway;if(p.y<-20){p.y=hc.height+20;p.x=Math.random()*hc.width}hx.globalAlpha=p.o;hx.font=p.size+'px Arial';hx.fillText('🤍',p.x,p.y);});requestAnimationFrame(ah);})();
 </script>
 </body>
