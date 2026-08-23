@@ -1,58 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLOCKMAN GO - BED WARS RANKINGS</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#070707;color:#fff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
-canvas{position:fixed;inset:0;z-index:-1;pointer-events:none}
-#hearts{z-index:1} #pixels{opacity:.7}
-.container{max-width:900px;margin:0 auto;padding:20px;position:relative;z-index:2}
-h1{text-align:center;font-size:44px;font-weight:900;letter-spacing:3px;line-height:1;text-shadow:0 0 20px #fff}
-.sub{text-align:center;opacity:.6;font-size:12px;letter-spacing:4px;margin:12px 0 6px}
-.date{text-align:center;opacity:.4;font-size:11px;margin-bottom:18px}
-.tools{display:flex;justify-content:center;margin-bottom:22px}
-.tools button{background:#111;border:1px solid #2a2a2a;color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer}
-.tools button.active{background:#fff;color:#000}
-.tabs{display:flex;gap:12px;margin-bottom:26px}
-.tab{flex:1;padding:16px;text-align:center;border-radius:999px;font-weight:900;font-size:16px;cursor:pointer;background:#141414;border:1px solid #222}
-.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #fff6}
-.list{display:none}.list.active{display:block}
-.card{background:#111;border:1px solid #1f1f1f;border-radius:18px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.3s}
-.card:hover{border-color:#fff4;transform:translateX(5px)}
-.card.top{border-color:#ffffff33;box-shadow:0 0 18px #ffffff15}
-.row{display:flex;align-items:center;gap:18px;padding:20px 24px}
-.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px}
-.card.top.rank{background:#fff;color:#000;box-shadow:0 0 18px #fff}
-.name{font-weight:800;font-size:20px}
-.tag{margin-left:auto;font-size:12px;font-weight:900;background:#fff;color:#000;padding:8px 14px;border-radius:20px}
-.tag.goat{background:linear-gradient(90deg,#fff,#aaa);box-shadow:0 0 12px #fff}
-.history{max-height:0;overflow:hidden;transition:.5s;background:#0a0a0a;border-top:1px solid #1a1a1a}
-.card.open.history{max-height:800px;padding:16px 24px}
-.hist-title{font-size:11px;opacity:.5;letter-spacing:2px;margin-bottom:10px;display:flex;justify-content:space-between}
-.hist-item{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #151515}
-.achievement{margin-bottom:14px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#1a1a1a,#0f0f0f);border:1px solid #fff3;display:flex;align-items:center;gap:12px}
-.achievement-icon{width:40px;height:40px;background:#fff;color:#000;border-radius:10px;display:grid;place-items:center;font-weight:900;box-shadow:0 0 15px #fff}
-.achievement b{font-size:13px;letter-spacing:2px}
-.achievement span{font-size:11px;opacity:.6;display:block}
-</style>
-</head>
-<body>
-<canvas id="pixels"></canvas><canvas id="hearts"></canvas>
-<div class="container">
-<h1>BLOCKMAN GO<br>BED WARS</h1>
-<div class="sub">OFFICIAL RANKINGS</div>
-<div id="currentDate" class="date"></div>
-<div class="tools"><button id="heartToggle" onclick="toggleHearts()">🤍 HEARTS: OFF</button></div>
-<div class="tabs">
-<div class="tab active" onclick="showTab('mobile',this)">TOP MOBILE</div>
-<div class="tab" onclick="showTab('emu',this)">TOP EMULATOR</div>
-</div>
-<div id="mobile" class="list active"></div>
-<div id="emu" class="list"></div>
-</div>
 <script>
 let CURRENT_MOBILE=["Amaury","NotEgo","Cnbeast","Huzu","Flaax","Flinney","Elzair","EgeOwns","Kurio","Beta","Zactyo","Naxo","Ownzy","Harsh","Kairo","Killer","Rishi","Adish","Yuta","Quar"];
 let CURRENT_EMU=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
@@ -60,7 +5,7 @@ function getNow(){let d=new Date();return {monthKey:d.getFullYear()+"-"+String(d
 let now=getNow();
 document.getElementById('currentDate').innerText="TODAY: "+now.full+" | SEASON: "+now.label;
 function load(){
- let raw=localStorage.getItem('bg_goat_only_top3');
+ let raw=localStorage.getItem('bg_goat_only_top3_v2');
  if(!raw){
    let players={};
    CURRENT_MOBILE.forEach((n,i)=>players['M_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]],goat:i<3});
@@ -76,37 +21,30 @@ function load(){
  data.currentMobile=CURRENT_MOBILE; data.currentEmu=CURRENT_EMU;
  CURRENT_MOBILE.forEach((n,i)=>{if(!data.players['M_'+n])data.players['M_'+n]={name:n,history:[],goat:i<3}; else data.players['M_'+n].goat=i<3;});
  CURRENT_EMU.forEach((n,i)=>{if(!data.players['E_'+n])data.players['E_'+n]={name:n,history:[],goat:i<3}; else data.players['E_'+n].goat=i<3;});
- localStorage.setItem('bg_goat_only_top3',JSON.stringify(data));
+ localStorage.setItem('bg_goat_only_top3_v2',JSON.stringify(data));
  return data;
 }
-let data=load();localStorage.setItem('bg_goat_only_top3',JSON.stringify(data));
+let data=load();localStorage.setItem('bg_goat_only_top3_v2',JSON.stringify(data));
 function render(){
  let m="",e="";
  data.currentMobile.forEach((name,idx)=>{
    let p=data.players['M_'+name]||{name,history:[],goat:false};
    let r=idx+1;let topClass=r<=3?" top":"";
-   let badge=p.goat?'<div class="tag goat">GOAT</div>':(r<=3?'<div class="tag">TOP '+r+'</div>':'');
+   let badge=p.goat?'<div class="tag goat">GOAT</div>':(r<=3?'<div class="tag">TOP '+r+'</div>':'<div class="tag">TOP '+r+'</div>');
    let goatAchievement=p.goat?`<div class="achievement"><div class="achievement-icon">⚚</div><div><b>G O A T</b><span>Privileged achievement for TOP 1-3 Mobile</span></div></div>`:'';
    let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><b>'+h[1]+'</b></div>').join('')||'<div style="opacity:.4">First month</div>';
-   m+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' • '+name+'</div>'+badge+'</div><div class="history">'+goatAchievement+'<div class="hist-title"><span>MONTHLY HISTORY</span><span>'+now.label+'</span></div>'+hist+'</div></div>';
+   m+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">'+name+'</div>'+badge+'</div><div class="history">'+goatAchievement+'<div class="hist-title"><span>MONTHLY HISTORY</span><span>'+now.label+'</span></div>'+hist+'</div></div>';
  });
  data.currentEmu.forEach((name,idx)=>{
    let p=data.players['E_'+name]||{name,history:[],goat:false};
    let r=idx+1;let topClass=r<=3?" top":"";
    let badge=r<=3?'<div class="tag goat">TOP '+r+'</div>':'<div class="tag">TOP '+r+'</div>';
-   if(r>3) badge='<div class="tag">TOP '+r+'</div>';
-   // LOGRO GOAT SOLO PARA TOP 1,2,3 EMU
    let goatAchievement=r<=3?`<div class="achievement"><div class="achievement-icon">⚚</div><div><b>G O A T</b><span>Privileged - TOP ${r} Emulator | ${now.label}</span></div></div>`:'';
    let hist=p.history.map(h=>'<div class="hist-item"><span>'+h[0]+'</span><b>'+h[1]+'</b></div>').join('')||'<div style="opacity:.4">First month</div>';
-   e+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">T'+r+' ┃ '+name+'</div>'+badge+'</div><div class="history">'+goatAchievement+'<div class="hist-title"><span>MONTHLY HISTORY</span><span>'+now.label+'</span></div>'+hist+'</div></div>';
+   e+='<div class="card'+topClass+'" onclick="this.classList.toggle(\'open\')"><div class="row"><div class="rank">'+r+'</div><div class="name">'+name+'</div>'+badge+'</div><div class="history">'+goatAchievement+'<div class="hist-title"><span>MONTHLY HISTORY</span><span>'+now.label+'</span></div>'+hist+'</div></div>';
  });
  document.getElementById('mobile').innerHTML=m;
  document.getElementById('emu').innerHTML=e;
 }
 render();
-function showTab(id,el){document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
-const c=document.getElementById('pixels'),x=c.getContext('2d');let w,h,dots=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}window.addEventListener('resize',rs);rs();for(let i=0;i<80;i++)dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.5+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});(function a(){x.clearRect(0,0,w,h);dots.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/80)*0.4;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=p.o;x.fillStyle='#fff';x.shadowBlur=10;x.shadowColor='#fff';x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();});requestAnimationFrame(a);})();
-const hc=document.getElementById('hearts'),hx=hc.getContext('2d');let hearts=[],on=false;function rsH(){hc.width=innerWidth;hc.height=innerHeight}window.addEventListener('resize',rsH);rsH();function toggleHearts(){on=!on;document.getElementById('heartToggle').innerText=on?'🤍 HEARTS: ON':'🤍 HEARTS: OFF';document.getElementById('heartToggle').classList.toggle('active',on);if(on&&hearts.length==0)for(let i=0;i<25;i++)hearts.push({x:Math.random()*hc.width,y:Math.random()*hc.height+hc.height,s:Math.random()*1.2+0.4,o:Math.random()*0.8+0.2,size:Math.random()*16+12,sway:Math.random()*2});}(function ah(){hx.clearRect(0,0,hc.width,hc.height);if(on)hearts.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/100)*p.sway;if(p.y<-20){p.y=hc.height+20;p.x=Math.random()*hc.width}hx.globalAlpha=p.o;hx.font=p.size+'px Arial';hx.fillText('🤍',p.x,p.y);});requestAnimationFrame(ah);})();
 </script>
-</body>
-</html>
