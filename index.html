@@ -7,40 +7,43 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#070707;color:#fff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:-1;background:#000}
-.bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, #1a1a1a 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, #111 0%, transparent 50%)}
-canvas{position:fixed;inset:0;z-index:-1;opacity:.7}
+canvas{position:fixed;inset:0;z-index:-1;pointer-events:none}
+#hearts{opacity:.9;z-index:1}
+#pixels{opacity:.7;z-index:-1}
 .container{max-width:600px;margin:0 auto;padding:20px;position:relative;z-index:2}
 h1{text-align:center;font-size:32px;font-weight:900;letter-spacing:2px;margin-top:25px;animation:glow 3s infinite alternate}
 @keyframes glow{from{text-shadow:0 0 10px #fff3}to{text-shadow:0 0 20px #fff,0 0 40px #ffffff55}}
-.sub{text-align:center;opacity:.5;font-size:11px;letter-spacing:4px;margin-top:8px;margin-bottom:28px}
+.sub{text-align:center;opacity:.5;font-size:11px;letter-spacing:4px;margin-top:8px;margin-bottom:18px}
+.hearts-btn{display:flex;justify-content:center;margin-bottom:20px}
+.hearts-btn button{background:#111;border:1px solid #2a2a2a;color:#fff;padding:8px 16px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer;transition:.3s}
+.hearts-btn button.active{background:#fff;color:#000;box-shadow:0 0 15px #fff}
 .tabs{display:flex;gap:10px;margin-bottom:22px}
-.tab{flex:1;padding:13px;text-align:center;border-radius:999px;font-weight:800;cursor:pointer;background:#141414;border:1px solid #222;transition:.3s;position:relative;overflow:hidden}
-.tab::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:.6s}
-.tab:hover::before{left:100%}
-.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #ffffff66, inset 0 0 15px #ffffff88;transform:scale(1.03)}
+.tab{flex:1;padding:13px;text-align:center;border-radius:999px;font-weight:800;cursor:pointer;background:#141414;border:1px solid #222;transition:.3s}
+.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #ffffff66;transform:scale(1.03)}
 .list{display:none}
-.list.active{display:block;animation:rise .4s}
+.list.active{display:block;animation:rise.4s}
 @keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-.row{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,#111,#0e0e0e);border:1px solid #1f1f1f;border-radius:14px;padding:12px 14px;margin-bottom:9px;position:relative;overflow:hidden;transition:.2s}
-.row::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#fff;opacity:0;transition:.2s}
-.row:hover{transform:translateX(4px);border-color:#ffffff33;box-shadow:0 0 15px #ffffff11}
-.row:hover::after{opacity:1}
-.row.top{background:linear-gradient(90deg,#1a1a1a,#141414);border-color:#ffffff22;box-shadow:0 0 12px #ffffff15}
-.rank{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:800;font-size:12px;flex-shrink:0}
-.row.top .rank{background:#fff;color:#000;box-shadow:0 0 15px #fff;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.row{display:flex;align-items:center;gap:12px;background:#111;border:1px solid #1f1f1f;border-radius:14px;padding:12px 14px;margin-bottom:9px;transition:.2s}
+.row:hover{transform:translateX(4px);border-color:#fff3}
+.row.top{border-color:#ffffff33;box-shadow:0 0 15px #ffffff15}
+.rank{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:800;font-size:12px}
+.row.top.rank{background:#fff;color:#000;box-shadow:0 0 12px #fff}
 .name{font-weight:700;font-size:14px}
-.tag{margin-left:auto;font-size:10px;font-weight:900;letter-spacing:1px;background:#fff;color:#000;padding:4px 9px;border-radius:20px}
+.tag{margin-left:auto;font-size:9px;font-weight:900;background:#fff;color:#000;padding:5px 10px;border-radius:20px}
+.tag.goat{background:linear-gradient(90deg,#fff,#aaa);box-shadow:0 0 10px #fff}
 </style>
 </head>
 <body>
-<div class="bg"></div>
-<canvas id="particles"></canvas>
+<canvas id="pixels"></canvas>
+<canvas id="hearts"></canvas>
 
 <div class="container">
 <h1>BLOCKMAN GO<br>BED WARS</h1>
 <div class="sub">OFFICIAL RANKINGS</div>
+
+<div class="hearts-btn">
+<button id="heartToggle" onclick="toggleHearts()">🤍 HEARTS: OFF</button>
+</div>
 
 <div class="tabs">
 <div class="tab active" onclick="showTab('mobile',this)">TOP MOBILE</div>
@@ -52,22 +55,36 @@ h1{text-align:center;font-size:32px;font-weight:900;letter-spacing:2px;margin-to
 </div>
 
 <script>
-const mobile = ["Amaury","NotEgo","Huzu","Flaax","Flinney","Elzair","Kurio","CnBeast","Beta","Zactyo","Naxo","Ownzy","Dray","Mito","Ken","Levi","Rex","Axel","Beny","Quar"];
-const emu = ["Beny","Bannks","Fredd","Jxke","Sora","Nax","Azuky","Rexo","Beta","Astra"];
+const mobile = [
+{n:"Amaury",goat:true},{n:"NotEgo",goat:true},{n:"Cnbeast",goat:true},
+{n:"Huzu"},{n:"Flaax"},{n:"Flinney"},{n:"Elzair"},{n:"EgeOwns"},
+{n:"Kurio"},{n:"Beta"},{n:"Zactyo"},{n:"Naxo"},{n:"Ownzy"},
+{n:"Harsh"},{n:"Kairo"},{n:"Killer"},{n:"Rishi"},{n:"Adish"},{n:"Yuta"},{n:"Quar"}
+];
+const emu = ["Beny","Bannks","Fredd","Azuky","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
 
-function render(id, data){
+function renderMobile(){
  let html="";
- for(let i=0;i<data.length;i++){
+ for(let i=0;i<mobile.length;i++){
    let r=i+1;
-   let topClass = r<=3 ? " top" : "";
-   let badge = r<=3 ? '<div class="tag">TOP ' + r + '</div>' : '';
-   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">' + data[i] + '</div>' + badge + '</div>';
+   let topClass = r<=3? " top" : "";
+   let badge = mobile[i].goat? '<div class="tag goat">GOAT</div>' : (r<=3? '<div class="tag">TOP ' + r + '</div>' : '');
+   let nameText = "T" + r + " • " + mobile[i].n + (mobile[i].goat? " ⚚ GOAT ⚚" : "");
+   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">' + nameText + '</div>' + badge + '</div>';
  }
- document.getElementById(id).innerHTML=html;
+ document.getElementById("mobile").innerHTML=html;
 }
-render("mobile",mobile);
-render("emu",emu);
-
+function renderEmu(){
+ let html="";
+ for(let i=0;i<emu.length;i++){
+   let r=i+1;
+   let topClass = r<=3? " top" : "";
+   let badge = r<=3? '<div class="tag">TOP ' + r + '</div>' : '';
+   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">T' + r + ' ┃ ' + emu[i] + '</div>' + badge + '</div>';
+ }
+ document.getElementById("emu").innerHTML=html;
+}
+renderMobile(); renderEmu();
 function showTab(id,el){
  document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));
  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -75,23 +92,49 @@ function showTab(id,el){
  el.classList.add('active');
 }
 
-// White floating particles
-const c=document.getElementById('particles'),x=c.getContext('2d');
+// WHITE PARTICLES EFFECT
+const c=document.getElementById('pixels'),x=c.getContext('2d');
 let w,h,dots=[];
 function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
 window.addEventListener('resize',resize);resize();
-for(let i=0;i<60;i++) dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.5,s:Math.random()*0.8+0.2,o:Math.random()*0.6+0.2});
+for(let i=0;i<70;i++) dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});
 (function anim(){
  x.clearRect(0,0,w,h);
  dots.forEach(p=>{
-   p.y-=p.s; p.x+=Math.sin(p.y/100)*0.3;
+   p.y-=p.s; p.x+=Math.sin(p.y/80)*0.4;
    if(p.y<0){p.y=h;p.x=Math.random()*w}
    x.globalAlpha=p.o;
-   x.fillStyle='#fff';
-   x.shadowBlur=8;x.shadowColor='#fff';
+   x.fillStyle='#fff';x.shadowBlur=8;x.shadowColor='#fff';
    x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill();
  });
  requestAnimationFrame(anim);
+})();
+
+// HEARTS EFFECT
+const hc=document.getElementById('hearts'),hx=hc.getContext('2d');
+let hearts=[], heartsOn=false;
+function resizeH(){hc.width=innerWidth;hc.height=innerHeight}
+window.addEventListener('resize',resizeH);resizeH();
+function toggleHearts(){
+ heartsOn=!heartsOn;
+ document.getElementById('heartToggle').innerText = heartsOn? '🤍 HEARTS: ON' : '🤍 HEARTS: OFF';
+ document.getElementById('heartToggle').classList.toggle('active', heartsOn);
+ if(heartsOn && hearts.length==0){
+   for(let i=0;i<25;i++) hearts.push({x:Math.random()*hc.width,y:Math.random()*hc.height+hc.height,s:Math.random()*1.2+0.4,o:Math.random()*0.8+0.2,size:Math.random()*14+10,sway:Math.random()*2});
+ }
+}
+(function animH(){
+ hx.clearRect(0,0,hc.width,hc.height);
+ if(heartsOn){
+  hearts.forEach(p=>{
+   p.y-=p.s; p.x+=Math.sin(p.y/100)*p.sway;
+   if(p.y<-20){p.y=hc.height+20;p.x=Math.random()*hc.width}
+   hx.globalAlpha=p.o;
+   hx.font=p.size+'px Arial';
+   hx.fillText('🤍',p.x,p.y);
+  });
+ }
+ requestAnimationFrame(animH);
 })();
 </script>
 </body>
