@@ -23,20 +23,16 @@ h1{text-align:center;font-size:46px;font-weight:900;line-height:.9;letter-spacin
 .card{background:#111;border:1px solid #1f1f1f;border-radius:18px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.3s;position:relative}
 .card:hover{transform:translateX(4px)}
 .row{display:flex;align-items:center;gap:18px;padding:22px 24px}
-.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px;position:relative;z-index:2}
+.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px;z-index:2}
 .name{font-weight:800;font-size:21px;z-index:2}
 .tag{margin-left:auto;font-size:12px;font-weight:900;background:#222;color:#fff;padding:8px 14px;border-radius:20px;z-index:2}
 .card.t1{background:linear-gradient(135deg,#1a1600,#111);border:1px solid #ffd700;box-shadow:0 0 25px #ffd70055,inset 0 0 20px #ffd70011}
-.card.t1.rank{background:linear-gradient(135deg,#ffd700,#ffae00);color:#000;border:none;box-shadow:0 0 20px #ffd700;animation:goldPulse 2s infinite}
 .card.t1.tag{background:#ffd700;color:#000;box-shadow:0 0 15px #ffd700}
 .card.t1::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffd70022,transparent);animation:shine 3s infinite}
 .card.t2{background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid #c0c0c0;box-shadow:0 0 20px #ffffff33}
-.card.t2.rank{background:linear-gradient(135deg,#e8e8e8,#a8a8a8);color:#000;border:none;box-shadow:0 0 15px #fff}
 .card.t2.tag{background:#e8e8e8;color:#000}
 .card.t3{background:linear-gradient(135deg,#1a1000,#111);border:1px solid #cd7f32;box-shadow:0 0 15px #cd7f3233}
-.card.t3.rank{background:linear-gradient(135deg,#e8a95a,#cd7f32);color:#000;border:none;box-shadow:0 0 12px #cd7f32}
 .card.t3.tag{background:#cd7f32;color:#fff}
-@keyframes goldPulse{0%,100%{transform:scale(1);box-shadow:0 0 20px #ffd700}50%{transform:scale(1.05);box-shadow:0 0 30px #ffd700}}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .history{max-height:0;overflow:hidden;transition:.5s;background:#0a0a0a;border-top:1px solid #1a1a1a}
 .card.open.history{max-height:800px;padding:18px 24px}
@@ -59,15 +55,13 @@ h1{text-align:center;font-size:46px;font-weight:900;line-height:.9;letter-spacin
 <div id="emu" class="list"></div>
 </div>
 <script>
-const CURRENT_MOBILE=["Amaury","Quar","CnBeast","NotEgo","Huzu","Flinney","Flaax","Elzair","EgeOwns","Kurio","Beta","Kisaki","Kairo","Naxo","Ownzy","Yuta","Adish","Rishi","Killer"];
+const CURRENT_MOBILE=["Amaury","Quar","Kurio","NotEgo","Huzu","Flinney","Flaax","Elzair","EgeOwns","CnBeast","Beta","Kisaki","Kairo","Naxo","Ownzy","Yuta","Adish","Rishi","Killer"];
 const CURRENT_EMU=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
-
 function getNow(){let d=new Date();return {monthKey:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'), label:d.toLocaleString('en-US',{month:'long',year:'numeric'}), full:d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}}
 let now=getNow();
 document.getElementById('currentDate').innerText=`TODAY: ${now.full} • SEASON: ${now.label}`;
-
 function load(){
- let raw=localStorage.getItem('bg_final_no_zeus');
+ let raw=localStorage.getItem('bg_final_kurio_t3');
  let base={players:{}, lastMonthKey:now.monthKey, lastLabel:now.label, currentMobile:CURRENT_MOBILE, currentEmu:CURRENT_EMU};
  if(!raw){
    CURRENT_MOBILE.forEach((n,i)=>base.players['M_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]]});
@@ -83,13 +77,11 @@ function load(){
  data.currentMobile=CURRENT_MOBILE; data.currentEmu=CURRENT_EMU;
  CURRENT_MOBILE.forEach((n)=>{if(!data.players['M_'+n])data.players['M_'+n]={name:n,history:[]};});
  CURRENT_EMU.forEach((n)=>{if(!data.players['E_'+n])data.players['E_'+n]={name:n,history:[]};});
- // eliminar Zeus si quedó guardado
  delete data.players['M_Zeus'];
- localStorage.setItem('bg_final_no_zeus',JSON.stringify(data));
+ localStorage.setItem('bg_final_kurio_t3',JSON.stringify(data));
  return data;
 }
-let data=load(); localStorage.setItem('bg_final_no_zeus',JSON.stringify(data));
-
+let data=load(); localStorage.setItem('bg_final_kurio_t3',JSON.stringify(data));
 function render(){
  let m="",e="";
  data.currentMobile.forEach((name,idx)=>{
