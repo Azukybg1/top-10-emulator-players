@@ -55,13 +55,15 @@ h1{text-align:center;font-size:46px;font-weight:900;line-height:.9;letter-spacin
 <div id="emu" class="list"></div>
 </div>
 <script>
-const CURRENT_MOBILE=["Amaury","Quar","Kurio","NotEgo","Huzu","Flinney","Flaax","Elzair","EgeOwns","CnBeast","Beta","Kisaki","Kairo","Naxo","Ownzy","Yuta","Adish","Rishi","Killer"];
+const CURRENT_MOBILE=["Amaury","Quar","Kurio","CnBeast","Huzu","Flinney","Flaxx","EgeOwns","Beta","Zactyo","Naxo","Kisaki","Harsh","Axolotl","Ownzy","Kairo","Rishi","Adish","Killer","Yuta"];
 const CURRENT_EMU=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
+
 function getNow(){let d=new Date();return {monthKey:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'), label:d.toLocaleString('en-US',{month:'long',year:'numeric'}), full:d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}}
 let now=getNow();
 document.getElementById('currentDate').innerText=`TODAY: ${now.full} • SEASON: ${now.label}`;
+
 function load(){
- let raw=localStorage.getItem('bg_final_kurio_t3');
+ let raw=localStorage.getItem('bg_final_aug25_new');
  let base={players:{}, lastMonthKey:now.monthKey, lastLabel:now.label, currentMobile:CURRENT_MOBILE, currentEmu:CURRENT_EMU};
  if(!raw){
    CURRENT_MOBILE.forEach((n,i)=>base.players['M_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]]});
@@ -77,11 +79,11 @@ function load(){
  data.currentMobile=CURRENT_MOBILE; data.currentEmu=CURRENT_EMU;
  CURRENT_MOBILE.forEach((n)=>{if(!data.players['M_'+n])data.players['M_'+n]={name:n,history:[]};});
  CURRENT_EMU.forEach((n)=>{if(!data.players['E_'+n])data.players['E_'+n]={name:n,history:[]};});
- delete data.players['M_Zeus'];
- localStorage.setItem('bg_final_kurio_t3',JSON.stringify(data));
+ localStorage.setItem('bg_final_aug25_new',JSON.stringify(data));
  return data;
 }
-let data=load(); localStorage.setItem('bg_final_kurio_t3',JSON.stringify(data));
+let data=load(); localStorage.setItem('bg_final_aug25_new',JSON.stringify(data));
+
 function render(){
  let m="",e="";
  data.currentMobile.forEach((name,idx)=>{
