@@ -6,44 +6,36 @@
 <title>BLOCKMAN GO - BED WARS RANKINGS</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#070707;color:#fff;font-family:Inter,sans-serif;overflow-x:hidden}
-canvas{position:fixed;inset:0;z-index:-1;pointer-events:none}
-#hearts{z-index:1} #pixels{opacity:.7}
-.container{max-width:900px;margin:0 auto;padding:24px;position:relative;z-index:2}
-h1{text-align:center;font-size:46px;font-weight:900;line-height:.9;letter-spacing:2px;text-shadow:0 0 25px #fff}
-.sub{text-align:center;opacity:.5;font-size:12px;letter-spacing:5px;margin:12px 0 6px}
-.date{text-align:center;opacity:.35;font-size:11px;margin-bottom:20px}
-.tools{display:flex;justify-content:center;margin-bottom:24px}
-.tools button{background:#111;border:1px solid #2a2a2a;color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer}
-.tools button.active{background:#fff;color:#000}
-.tabs{display:flex;gap:12px;margin-bottom:26px}
-.tab{flex:1;padding:16px;text-align:center;border-radius:999px;font-weight:900;font-size:16px;cursor:pointer;background:#141414;border:1px solid #222}
-.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #fff5}
-.list{display:none}.list.active{display:block}
-.card{background:#111;border:1px solid #1f1f1f;border-radius:18px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.3s;position:relative}
-.card:hover{transform:translateX(4px)}
-.row{display:flex;align-items:center;gap:18px;padding:22px 24px}
-.rank{width:56px;height:56px;display:grid;place-items:center;border-radius:12px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:900;font-size:18px;z-index:2}
-.name{font-weight:800;font-size:21px;z-index:2}
-.tag{margin-left:auto;font-size:12px;font-weight:900;background:#222;color:#fff;padding:8px 14px;border-radius:20px;z-index:2}
-.card.t1{background:linear-gradient(135deg,#1a1600,#111);border:1px solid #ffd700;box-shadow:0 0 25px #ffd70055}
-.card.t1::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffd70022,transparent);animation:shine 3s infinite}
-.card.t2{background:linear-gradient(135deg,#1a1a1a,#111);border:1px solid #c0c0c0;box-shadow:0 0 20px #ffffff33}
-.card.t3{background:linear-gradient(135deg,#1a1000,#111);border:1px solid #cd7f32;box-shadow:0 0 15px #cd7f3233}
+body{background:#070707;color:#fff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:-1;opacity:.7}
+.container{max-width:600px;margin:0 auto;padding:20px;position:relative;z-index:2}
+h1{text-align:center;font-size:32px;font-weight:900;letter-spacing:2px;margin-top:25px;animation:glow 3s infinite alternate}
+@keyframes glow{from{text-shadow:0 0 10px #fff3}to{text-shadow:0 0 20px #fff,0 0 40px #ffffff55}}
+.sub{text-align:center;opacity:.5;font-size:11px;letter-spacing:4px;margin-top:8px;margin-bottom:28px}
+.tabs{display:flex;gap:10px;margin-bottom:22px}
+.tab{flex:1;padding:13px;text-align:center;border-radius:999px;font-weight:800;cursor:pointer;background:#141414;border:1px solid #222;transition:.3s}
+.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #ffffff66;transform:scale(1.03)}
+.list{display:none}
+.list.active{display:block;animation:rise.4s}
+@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.row{display:flex;align-items:center;gap:12px;background:#111;border:1px solid #1f1f1f;border-radius:14px;padding:12px 14px;margin-bottom:9px;transition:.2s;position:relative;overflow:hidden}
+.row:hover{transform:translateX(4px);border-color:#fff3}
+.row.top{border-color:#ffffff55;box-shadow:0 0 20px #ffffff22}
+.row.top::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff18,transparent);animation:shine 2.8s infinite}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.history{max-height:0;overflow:hidden;transition:.5s;background:#0a0a0a;border-top:1px solid #1a1a1a}
-.card.open.history{max-height:800px;padding:18px 24px}
-.hist-title{font-size:11px;opacity:.45;letter-spacing:2px;margin-bottom:10px;display:flex;justify-content:space-between}
-.hist-item{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #151515}
+.rank{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:800;font-size:12px;z-index:2}
+.row.top.rank{background:#fff;color:#000;box-shadow:0 0 15px #fff;animation:rankPulse 2s infinite}
+@keyframes rankPulse{0%,100%{box-shadow:0 0 12px #fff}50%{box-shadow:0 0 22px #fff}}
+.name{font-weight:700;font-size:14px;z-index:2}
+.tag{margin-left:auto;font-size:9px;font-weight:900;letter-spacing:1px;background:#222;color:#fff;padding:5px 10px;border-radius:20px;z-index:2}
+.row.top.tag{background:#fff;color:#000;box-shadow:0 0 10px #fff}
 </style>
 </head>
 <body>
-<canvas id="pixels"></canvas><canvas id="hearts"></canvas>
+<canvas id="particles"></canvas>
 <div class="container">
 <h1>BLOCKMAN GO<br>BED WARS</h1>
 <div class="sub">OFFICIAL RANKINGS</div>
-<div id="currentDate" class="date"></div>
-<div class="tools"><button id="heartToggle" onclick="toggleHearts()">🤍 HEARTS: OFF</button></div>
 <div class="tabs">
 <div class="tab active" onclick="showTab('mobile',this)">TOP MOBILE</div>
 <div class="tab" onclick="showTab('emu',this)">TOP EMULATOR</div>
@@ -52,56 +44,53 @@ h1{text-align:center;font-size:46px;font-weight:900;line-height:.9;letter-spacin
 <div id="emu" class="list"></div>
 </div>
 <script>
-const CURRENT_MOBILE=["Amaury","Quar","Hashim","CnBeast","Huzu","Flinney","Flaax","EgeOwns","Beta","Zactyo","Naxo","Kisaki","Harsh","Zeus","Ownzy","Kairo","Rishi","Adish","Killer","Yuta"];
-const CURRENT_EMU=["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
+const mobile = ["Amaury","Quar","Kurio","CnBeast","Huzu","Flinney","Flaax","EgeOwns","Beta","Zactyo","Naxo","Kisaki","Harsh","Zeus","Ownzy","Kairo","Rishi","Adish","Killer","Yuta"];
+const emu = ["Beny","Azuky","Bannks","Fredd","SanoManjiro","Mihan","Astro","Aris","Anfal","Beta"];
 
-function getNow(){let d=new Date();return {monthKey:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'), label:d.toLocaleString('en-US',{month:'long',year:'numeric'}), full:d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}}
-let now=getNow();
-document.getElementById('currentDate').innerText=`TODAY: ${now.full} • SEASON: ${now.label}`;
-
-function load(){
- let raw=localStorage.getItem('bg_vercel_final_v2');
- let base={players:{}, lastMonthKey:now.monthKey, lastLabel:now.label, currentMobile:CURRENT_MOBILE, currentEmu:CURRENT_EMU};
- if(!raw){
-   CURRENT_MOBILE.forEach((n,i)=>base.players['M_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]]});
-   CURRENT_EMU.forEach((n,i)=>base.players['E_'+n]={name:n,history:[["Jul 2025","T"+(i+1)]]});
-   return base;
+function renderMobile(){
+ let html="";
+ for(let i=0;i<mobile.length;i++){
+   let r=i+1;
+   let topClass = r<=3? " top" : "";
+   let badge = r<=3? '<div class="tag">TOP ' + r + '</div>' : '';
+   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">T' + r + ' • ' + mobile[i] + '</div>' + badge + '</div>';
  }
- let data=JSON.parse(raw);
- if(data.lastMonthKey!==now.monthKey){
-   data.currentMobile.forEach((name,idx)=>{let k='M_'+name;if(!data.players[k])data.players[k]={name,history:[]};data.players[k].history.unshift([data.lastLabel,"T"+(idx+1)]);});
-   data.currentEmu.forEach((name,idx)=>{let k='E_'+name;if(!data.players[k])data.players[k]={name,history:[]};data.players[k].history.unshift([data.lastLabel,"T"+(idx+1)]);});
-   data.lastMonthKey=now.monthKey; data.lastLabel=now.label;
+ document.getElementById("mobile").innerHTML=html;
+}
+function renderEmu(){
+ let html="";
+ for(let i=0;i<emu.length;i++){
+   let r=i+1;
+   let topClass = r<=3? " top" : "";
+   let badge = r<=3? '<div class="tag">TOP ' + r + '</div>' : '';
+   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">T' + r + ' • ' + emu[i] + '</div>' + badge + '</div>';
  }
- data.currentMobile=CURRENT_MOBILE; data.currentEmu=CURRENT_EMU;
- CURRENT_MOBILE.forEach((n)=>{if(!data.players['M_'+n])data.players['M_'+n]={name:n,history:[]};});
- CURRENT_EMU.forEach((n)=>{if(!data.players['E_'+n])data.players['E_'+n]={name:n,history:[]};});
- localStorage.setItem('bg_vercel_final_v2',JSON.stringify(data));
- return data;
+ document.getElementById("emu").innerHTML=html;
 }
-let data=load(); localStorage.setItem('bg_vercel_final_v2',JSON.stringify(data));
+renderMobile(); renderEmu();
 
-function render(){
- let m="",e="";
- data.currentMobile.forEach((name,idx)=>{
-   let p=data.players['M_'+name]; let r=idx+1;
-   let cls=r==1?" t1":r==2?" t2":r==3?" t3":"";
-   let hist=p.history.map(h=>`<div class="hist-item"><span>${h[0]}</span><b>${h[1]}</b></div>`).join('')||'<div style="opacity:.4">First season</div>';
-   m+=`<div class="card${cls}" onclick="this.classList.toggle('open')"><div class="row"><div class="rank">${r}</div><div class="name">${name}</div><div class="tag">TOP ${r}</div></div><div class="history"><div class="hist-title"><span>HISTORY</span><span>${p.history.length+1} MONTHS</span></div>${hist}</div></div>`;
- });
- data.currentEmu.forEach((name,idx)=>{
-   let p=data.players['E_'+name]; let r=idx+1;
-   let cls=r==1?" t1":r==2?" t2":r==3?" t3":"";
-   let hist=p.history.map(h=>`<div class="hist-item"><span>${h[0]}</span><b>${h[1]}</b></div>`).join('')||'<div style="opacity:.4">First season</div>';
-   e+=`<div class="card${cls}" onclick="this.classList.toggle('open')"><div class="row"><div class="rank">${r}</div><div class="name">${name}</div><div class="tag">TOP ${r}</div></div><div class="history"><div class="hist-title"><span>HISTORY</span><span>${p.history.length+1} MONTHS</span></div>${hist}</div></div>`;
- });
- document.getElementById('mobile').innerHTML=m;
- document.getElementById('emu').innerHTML=e;
+function showTab(id,el){
+ document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ el.classList.add('active');
 }
-render();
-window.showTab=(id,el)=>{document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
-const c=document.getElementById('pixels'),x=c.getContext('2d');let w,h,dots=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}addEventListener('resize',rs);rs();for(let i=0;i<80;i++)dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.5+0.7,s:Math.random()*0.7+0.2,o:Math.random()*0.5+0.2});(function a(){x.clearRect(0,0,w,h);dots.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/80)*0.4;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=p.o;x.fillStyle='#fff';x.shadowBlur=10;x.shadowColor='#fff';x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();});requestAnimationFrame(a);})();
-const hc=document.getElementById('hearts'),hx=hc.getContext('2d');let hearts=[],on=false;function rsH(){hc.width=innerWidth;hc.height=innerHeight}addEventListener('resize',rsH);rsH();window.toggleHearts=()=>{on=!on;document.getElementById('heartToggle').innerText=on?'🤍 HEARTS: ON':'🤍 HEARTS: OFF';document.getElementById('heartToggle').classList.toggle('active',on);if(on&&hearts.length==0)for(let i=0;i<25;i++)hearts.push({x:Math.random()*hc.width,y:Math.random()*hc.height+hc.height,s:Math.random()*1.2+0.4,o:Math.random()*0.8+0.2,size:Math.random()*16+12,sway:Math.random()*2});};(function ah(){hx.clearRect(0,0,hc.width,hc.height);if(on)hearts.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.y/100)*p.sway;if(p.y<-20){p.y=hc.height+20;p.x=Math.random()*hc.width}hx.globalAlpha=p.o;hx.font=p.size+'px Arial';hx.fillText('🤍',p.x,p.y);});requestAnimationFrame(ah);})();
+const c=document.getElementById('particles'),x=c.getContext('2d');
+let w,h,dots=[];
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+window.addEventListener('resize',resize);resize();
+for(let i=0;i<90;i++) dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});
+(function anim(){
+ x.clearRect(0,0,w,h);
+ dots.forEach(p=>{
+   p.y-=p.s; p.x+=Math.sin(p.y/80)*0.4;
+   if(p.y<0){p.y=h;p.x=Math.random()*w}
+   x.globalAlpha=p.o;
+   x.fillStyle='#fff';x.shadowBlur=8;x.shadowColor='#fff';
+   x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill();
+ });
+ requestAnimationFrame(anim);
+})();
 </script>
 </body>
 </html>
