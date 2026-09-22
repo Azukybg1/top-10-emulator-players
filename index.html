@@ -4,38 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BLOCKMAN GO - BED WARS RANKINGS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#070707;color:#fff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
-canvas{position:fixed;inset:0;z-index:-1;opacity:.7}
-.container{max-width:600px;margin:0 auto;padding:20px;position:relative;z-index:2}
-h1{text-align:center;font-size:32px;font-weight:900;letter-spacing:2px;margin-top:25px;animation:glow 3s infinite alternate}
-@keyframes glow{from{text-shadow:0 0 10px #fff3}to{text-shadow:0 0 20px #fff,0 0 40px #ffffff55}}
-.sub{text-align:center;opacity:.5;font-size:11px;letter-spacing:4px;margin-top:8px;margin-bottom:28px}
-.tabs{display:flex;gap:10px;margin-bottom:22px}
-.tab{flex:1;padding:13px;text-align:center;border-radius:999px;font-weight:800;cursor:pointer;background:#141414;border:1px solid #222;transition:.3s}
-.tab.active{background:#fff;color:#000;box-shadow:0 0 25px #ffffff66;transform:scale(1.03)}
+body{background:#080808;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:0}
+.bg-glow{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(600px at 50% -10%, #ff000025, transparent 70%), radial-gradient(800px at 90% 80%, #ff1a1a12, transparent 60%)}
+.container{max-width:580px;margin:0 auto;padding:24px;position:relative;z-index:2}
+h1{text-align:center;font-size:34px;font-weight:900;letter-spacing:1.5px;margin-top:30px;line-height:0.9}
+h1 span{background:linear-gradient(180deg,#fff 30%,#ffb0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px #ff000088)}
+.sub{text-align:center;color:#ff3b3b;font-size:10px;letter-spacing:5px;font-weight:700;margin:10px 0 32px;opacity:.9}
+.tabs{display:flex;gap:10px;margin-bottom:24px;padding:6px;background:#111;border:1px solid #1e1e1e;border-radius:999px}
+.tab{flex:1;padding:12px;text-align:center;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;transition:.35s cubic-bezier(.2,.8,.2,1);color:#666}
+.tab.active{background:linear-gradient(180deg,#ff2a2a,#d40000);color:#fff;box-shadow:0 6px 20px #ff000066, inset 0 1px 0 #ffffff55}
 .list{display:none}
-.list.active{display:block;animation:rise.4s}
-@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-.row{display:flex;align-items:center;gap:12px;background:#111;border:1px solid #1f1f1f;border-radius:14px;padding:12px 14px;margin-bottom:9px;transition:.2s;position:relative;overflow:hidden}
-.row:hover{transform:translateX(4px);border-color:#fff3}
-.row.top{border-color:#ffffff55;box-shadow:0 0 20px #ffffff22}
-.row.top::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff18,transparent);animation:shine 2.8s infinite}
-@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.rank{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#1c1c1c;border:1px solid #2a2a2a;font-weight:800;font-size:12px;z-index:2}
-.row.top.rank{background:#fff;color:#000;box-shadow:0 0 15px #fff;animation:rankPulse 2s infinite}
-@keyframes rankPulse{0%,100%{box-shadow:0 0 12px #fff}50%{box-shadow:0 0 22px #fff}}
-.name{font-weight:700;font-size:14px;z-index:2}
-.tag{margin-left:auto;font-size:9px;font-weight:900;letter-spacing:1px;background:#222;color:#fff;padding:5px 10px;border-radius:20px;z-index:2}
-.row.top.tag{background:#fff;color:#000;box-shadow:0 0 10px #fff}
+.list.active{display:block;animation:rise.5s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.row{display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#151515,#101010);border:1px solid #1f1f1f;border-radius:16px;padding:14px 16px;margin-bottom:10px;position:relative;overflow:hidden;transition:.3s}
+.row::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(100deg,transparent, #ffffff0a, transparent);transform:skewX(-15deg);transition:.6s}
+.row:hover::after{left:130%}
+.row:hover{transform:translateY(-2px);border-color:#2a2a2a;background:linear-gradient(180deg,#1a1a1a,#121212)}
+.row.top{background:linear-gradient(180deg,#1f1212,#140a0a);border-color:#ff000044}
+.row.top.rank{background:linear-gradient(180deg,#ff3a3a,#cc0000);color:#fff;border:none;box-shadow:0 0 0 1px #ff000055, 0 0 20px #ff0000aa, 0 4px 15px #ff000044}
+.rank{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:#1a1a1a;border:1px solid #262626;font-weight:900;font-size:13px;flex-shrink:0}
+.name{font-weight:700;font-size:14.5px;letter-spacing:.2px}
+.tag{margin-left:auto;font-size:8.5px;font-weight:900;letter-spacing:1.2px;padding:6px 11px;border-radius:999px;background:#ff0000;color:#fff;box-shadow:0 0 15px #ff000066}
+.row:not(.top).tag{background:#1e1e1e;color:#888;box-shadow:none;border:1px solid #2a2a2a}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
+<div class="bg-glow"></div>
 <div class="container">
-<h1>BLOCKMAN GO<br>BED WARS</h1>
-<div class="sub">OFFICIAL RANKINGS</div>
+<h1><span>BLOCKMAN GO<br>BED WARS</span></h1>
+<div class="sub">OFFICIAL RANKINGS • RED EDITION</div>
 <div class="tabs">
 <div class="tab active" onclick="showTab('mobile',this)">TOP MOBILE</div>
 <div class="tab" onclick="showTab('emu',this)">TOP EMULATOR</div>
@@ -46,29 +48,18 @@ h1{text-align:center;font-size:32px;font-weight:900;letter-spacing:2px;margin-to
 <script>
 const mobile = ["Amaury","CnBeast","Player","Elzair","Beta","Naxo","Rishi","Benykz","ItzRaimbowBG","Aiden","Habib","IamNotPc","Sehur","ThunderBG","SamuraiBG","","","","",""];
 const emu = ["Benykz","AzukyBG","Bannks","SanoManjiro","Fredd","Phoenix","Mihan","Astro","Anfal","Beta"];
-
-function renderMobile(){
+function render(list,id){
  let html="";
- for(let i=0;i<mobile.length;i++){
+ for(let i=0;i<list.length;i++){
+   if(!list[i]) continue;
    let r=i+1;
    let topClass = r<=3? " top" : "";
-   let badge = r<=3? '<div class="tag">TOP ' + r + '</div>' : '';
-   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">T' + r + ' • ' + mobile[i] + '</div>' + badge + '</div>';
+   let badge = '<div class="tag">TOP '+r+'</div>';
+   html += `<div class="row${topClass}"><div class="rank">${r}</div><div class="name">T${r} • ${list[i]}</div>${badge}</div>`;
  }
- document.getElementById("mobile").innerHTML=html;
+ document.getElementById(id).innerHTML=html;
 }
-function renderEmu(){
- let html="";
- for(let i=0;i<emu.length;i++){
-   let r=i+1;
-   let topClass = r<=3? " top" : "";
-   let badge = r<=3? '<div class="tag">TOP ' + r + '</div>' : '';
-   html += '<div class="row' + topClass + '"><div class="rank">' + r + '</div><div class="name">T' + r + ' • ' + emu[i] + '</div>' + badge + '</div>';
- }
- document.getElementById("emu").innerHTML=html;
-}
-renderMobile(); renderEmu();
-
+render(mobile,'mobile'); render(emu,'emu');
 function showTab(id,el){
  document.querySelectorAll('.list').forEach(l=>l.classList.remove('active'));
  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -79,15 +70,17 @@ const c=document.getElementById('particles'),x=c.getContext('2d');
 let w,h,dots=[];
 function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
 window.addEventListener('resize',resize);resize();
-for(let i=0;i<90;i++) dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.6,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.2});
+for(let i=0;i<60;i++) dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.8+0.4,s:Math.random()*0.4+0.15,o:Math.random()*0.5+0.2});
 (function anim(){
  x.clearRect(0,0,w,h);
  dots.forEach(p=>{
-   p.y-=p.s; p.x+=Math.sin(p.y/80)*0.4;
+   p.y-=p.s;
    if(p.y<0){p.y=h;p.x=Math.random()*w}
    x.globalAlpha=p.o;
-   x.fillStyle='#fff';x.shadowBlur=8;x.shadowColor='#fff';
+   x.fillStyle='#ff0000';
+   x.shadowBlur=15;x.shadowColor='#ff0000';
    x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill();
+   x.shadowBlur=0;
  });
  requestAnimationFrame(anim);
 })();
